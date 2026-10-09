@@ -10,18 +10,7 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_medium">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_step_holidays"
-            android:textAppearance="@style/TextAppearance.App.Primary.Title" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_tiny"
-            android:text="Choose your weekly holidays. You can change these later in settings."
-            android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
 
         <LinearLayout
             android:id="@+id/holidaysContainer"

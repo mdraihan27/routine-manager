@@ -32,7 +32,11 @@ public abstract class BaseViewModel<S extends UiState, E extends UiEvent> extend
     }
 
     protected void setState(@NonNull S newState) {
-        stateLiveData.postValue(newState);
+        if (android.os.Looper.getMainLooper() == android.os.Looper.myLooper()) {
+            stateLiveData.setValue(newState);
+        } else {
+            stateLiveData.postValue(newState);
+        }
     }
 
     protected void addDisposable(@NonNull Disposable disposable) {

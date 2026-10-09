@@ -293,15 +293,25 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             dialogBinding.clockReschedule.setTime(endHour[0], endMinute[0]);
         });
 
-        dialogBinding.clockReschedule.setOnTimeSelectedListener((h, m) -> {
-            if (pickingStart[0]) {
-                startHour[0] = h;
-                startMinute[0] = m;
-            } else {
-                endHour[0] = h;
-                endMinute[0] = m;
+        dialogBinding.clockReschedule.setOnTimeSelectedListener(new AnalogClockView.OnTimeSelectedListener() {
+            @Override
+            public void onTimeChanged(int h, int m) {
+                if (pickingStart[0]) {
+                    startHour[0] = h;
+                    startMinute[0] = m;
+                } else {
+                    endHour[0] = h;
+                    endMinute[0] = m;
+                }
+                updatePreview.run();
             }
-            updatePreview.run();
+
+            @Override
+            public void onTimeSelectionComplete(AnalogClockView.Mode modeCompleted) {
+                if (modeCompleted == AnalogClockView.Mode.HOUR) {
+                    dialogBinding.clockReschedule.setMode(AnalogClockView.Mode.MINUTE);
+                }
+            }
         });
 
         dialogBinding.chipRescheduleHour.setOnClickListener(v ->

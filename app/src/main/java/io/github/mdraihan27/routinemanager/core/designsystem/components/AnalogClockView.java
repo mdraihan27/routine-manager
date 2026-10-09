@@ -19,6 +19,7 @@ public class AnalogClockView extends View {
 
     public interface OnTimeSelectedListener {
         void onTimeChanged(int hour24, int minute);
+        void onTimeSelectionComplete(Mode modeCompleted);
     }
 
     public enum Mode {
@@ -227,6 +228,11 @@ public class AnalogClockView extends View {
 
             invalidate();
             notifyListener();
+            return true;
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (listener != null) {
+                listener.onTimeSelectionComplete(currentMode);
+            }
             return true;
         }
         return super.onTouchEvent(event);

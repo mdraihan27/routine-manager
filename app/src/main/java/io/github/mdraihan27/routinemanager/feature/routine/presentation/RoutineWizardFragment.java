@@ -169,44 +169,58 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
     }
 
     private void setupStepBreak() {
-        stepBreakBinding.breakClock.setOnTimeSelectedListener((h24, m) -> {
-            if (isBreakStartSelected) {
-                breakStartH = h24;
-                breakStartM = m;
-            } else {
-                breakEndH = h24;
-                breakEndM = m;
+        stepBreakBinding.breakClock.setOnTimeSelectedListener(new AnalogClockView.OnTimeSelectedListener() {
+            @Override
+            public void onTimeChanged(int h24, int m) {
+                if (isBreakStartSelected) {
+                    breakStartH = h24;
+                    breakStartM = m;
+                } else {
+                    breakEndH = h24;
+                    breakEndM = m;
+                }
+                updateBreakDisplay();
+                updateAmPmToggleUI();
             }
-            updateBreakDisplay();
+
+            @Override
+            public void onTimeSelectionComplete(AnalogClockView.Mode modeCompleted) {
+                if (modeCompleted == AnalogClockView.Mode.HOUR) {
+                    stepBreakBinding.breakClock.setMode(AnalogClockView.Mode.MINUTE);
+                }
+            }
         });
 
         stepBreakBinding.btnSelectBreakStart.setOnClickListener(v -> {
             isBreakStartSelected = true;
             stepBreakBinding.breakClock.setTime(breakStartH, breakStartM);
+            stepBreakBinding.breakClock.setMode(AnalogClockView.Mode.HOUR);
             updateBreakDisplay();
+            updateToggleUI();
+            updateAmPmToggleUI();
         });
 
         stepBreakBinding.btnSelectBreakEnd.setOnClickListener(v -> {
             isBreakStartSelected = false;
             stepBreakBinding.breakClock.setTime(breakEndH, breakEndM);
+            stepBreakBinding.breakClock.setMode(AnalogClockView.Mode.HOUR);
             updateBreakDisplay();
+            updateToggleUI();
+            updateAmPmToggleUI();
         });
 
-        stepBreakBinding.chipBreakHourMode.setOnClickListener(v ->
-                stepBreakBinding.breakClock.setMode(AnalogClockView.Mode.HOUR)
-        );
+        stepBreakBinding.tvBreakStartTime.setOnClickListener(v -> stepBreakBinding.btnSelectBreakStart.performClick());
+        stepBreakBinding.tvBreakEndTime.setOnClickListener(v -> stepBreakBinding.btnSelectBreakEnd.performClick());
 
-        stepBreakBinding.chipBreakMinuteMode.setOnClickListener(v ->
-                stepBreakBinding.breakClock.setMode(AnalogClockView.Mode.MINUTE)
-        );
+        stepBreakBinding.btnSelectAm.setOnClickListener(v -> {
+            stepBreakBinding.breakClock.setIsAm(true);
+            updateAmPmToggleUI();
+        });
 
-        stepBreakBinding.chipBreakAm.setOnClickListener(v ->
-                stepBreakBinding.breakClock.setIsAm(true)
-        );
-
-        stepBreakBinding.chipBreakPm.setOnClickListener(v ->
-                stepBreakBinding.breakClock.setIsAm(false)
-        );
+        stepBreakBinding.btnSelectPm.setOnClickListener(v -> {
+            stepBreakBinding.breakClock.setIsAm(false);
+            updateAmPmToggleUI();
+        });
 
         stepBreakBinding.btnSkipBreak.setOnClickListener(v -> {
             viewModel.onEvent(new RoutineWizardUiEvent.SetBreakTime(false, 0, 0, 0, 0));
@@ -229,12 +243,53 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
                 isBreakStartSelected ? breakStartM : breakEndM
         );
         updateBreakDisplay();
+        updateToggleUI();
+        updateAmPmToggleUI();
+    }
+
+    private void updateToggleUI() {
+        if (isBreakStartSelected) {
+            stepBreakBinding.btnSelectBreakStart.setBackgroundResource(R.drawable.bg_toggle_pill);
+            stepBreakBinding.btnSelectBreakStart.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            stepBreakBinding.btnSelectBreakEnd.setBackground(null);
+            stepBreakBinding.btnSelectBreakEnd.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        } else {
+            stepBreakBinding.btnSelectBreakEnd.setBackgroundResource(R.drawable.bg_toggle_pill);
+            stepBreakBinding.btnSelectBreakEnd.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            stepBreakBinding.btnSelectBreakStart.setBackground(null);
+            stepBreakBinding.btnSelectBreakStart.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        }
+    }
+
+    private void updateAmPmToggleUI() {
+        if (stepBreakBinding.breakClock.isAm()) {
+            stepBreakBinding.btnSelectAm.setBackgroundResource(R.drawable.bg_toggle_pill);
+            stepBreakBinding.btnSelectAm.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            stepBreakBinding.btnSelectPm.setBackground(null);
+            stepBreakBinding.btnSelectPm.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        } else {
+            stepBreakBinding.btnSelectPm.setBackgroundResource(R.drawable.bg_toggle_pill);
+            stepBreakBinding.btnSelectPm.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            stepBreakBinding.btnSelectAm.setBackground(null);
+            stepBreakBinding.btnSelectAm.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        }
     }
 
     private void updateBreakDisplay() {
-        stepBreakBinding.tvBreakTimeDisplay.setText(
-                DateTimeFormatter.formatTimeRange(breakStartH, breakStartM, breakEndH, breakEndM)
+        stepBreakBinding.tvBreakStartTime.setText(
+                DateTimeFormatter.formatTime12Hour(breakStartH, breakStartM)
         );
+        stepBreakBinding.tvBreakEndTime.setText(
+                DateTimeFormatter.formatTime12Hour(breakEndH, breakEndM)
+        );
+        
+        if (isBreakStartSelected) {
+            stepBreakBinding.tvBreakStartTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+            stepBreakBinding.tvBreakEndTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_muted));
+        } else {
+            stepBreakBinding.tvBreakStartTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_muted));
+            stepBreakBinding.tvBreakEndTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        }
     }
 
     private void setupStepSchedule() {
@@ -312,15 +367,25 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         dBinding.dialogClassClock.setTime(startH[0], startM[0]);
         updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0]);
 
-        dBinding.dialogClassClock.setOnTimeSelectedListener((h24, m) -> {
-            if (isPickingStart[0]) {
-                startH[0] = h24;
-                startM[0] = m;
-            } else {
-                endH[0] = h24;
-                endM[0] = m;
+        dBinding.dialogClassClock.setOnTimeSelectedListener(new AnalogClockView.OnTimeSelectedListener() {
+            @Override
+            public void onTimeChanged(int h24, int m) {
+                if (isPickingStart[0]) {
+                    startH[0] = h24;
+                    startM[0] = m;
+                } else {
+                    endH[0] = h24;
+                    endM[0] = m;
+                }
+                updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0]);
             }
-            updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0]);
+
+            @Override
+            public void onTimeSelectionComplete(AnalogClockView.Mode modeCompleted) {
+                if (modeCompleted == AnalogClockView.Mode.HOUR) {
+                    dBinding.dialogClassClock.setMode(AnalogClockView.Mode.MINUTE);
+                }
+            }
         });
 
         dBinding.btnTabStartTime.setOnClickListener(v -> {
