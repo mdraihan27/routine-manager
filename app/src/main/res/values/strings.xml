@@ -1,3 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Routine Manager</string>
+    <string name="action_start">Start</string>
+    <string name="action_add_course">Add Course</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_next">Next</string>
+    <string name="action_back">Back</string>
+    <string name="action_done">Done</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_undo">Undo</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_reset">Reset</string>
+    <string name="action_custom_color">Custom</string>
+    <string name="action_apply">Apply</string>
+    <string name="action_select">Select</string>
+
+    <string name="title_home">Schedule</string>
+    <string name="title_courses">Courses</string>
+    <string name="title_add_course">Add Course</string>
+    <string name="title_edit_course">Edit Course</string>
+    <string name="title_routine_wizard">Routine Setup</string>
+    <string name="title_step_holidays">Weekly Holidays</string>
+    <string name="title_step_break">Default Daily Break</string>
+    <string name="title_step_schedule">Weekly Schedule</string>
+    <string name="title_add_class">Add Class</string>
+    <string name="title_edit_class">Edit Class</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_gallery">Design System Gallery</string>
+
+    <string name="day_saturday">Saturday</string>
+    <string name="day_sunday">Sunday</string>
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+
+    <string name="day_short_sat">Sat</string>
+    <string name="day_short_sun">Sun</string>
+    <string name="day_short_mon">Mon</string>
+    <string name="day_short_tue">Tue</string>
+    <string name="day_short_wed">Wed</string>
+    <string name="day_short_thu">Thu</string>
+    <string name="day_short_fri">Fri</string>
+
+    <string name="hint_course_code">Course Code</string>
+    <string name="hint_course_name">Course Name</string>
+    <string name="hint_teacher_name">Teacher Name</string>
+    <string name="hint_hex_color">Hex Color (e.g. #7EAAEE)</string>
+
+    <string name="label_select_color">Course Color</string>
+    <string name="label_start_time">Start Time</string>
+    <string name="label_end_time">End Time</string>
+    <string name="label_break_start">Break Start</string>
+    <string name="label_break_end">Break End</string>
+    <string name="label_upcoming">Upcoming</string>
+    <string name="label_in_progress">In Progress</string>
+    <string name="label_completed">Completed</string>
+    <string name="label_cancelled">Cancelled</string>
+    <string name="label_holiday">Holiday</string>
+    <string name="label_break_time">Daily Break</string>
+    <string name="label_no_classes_today">No classes scheduled for today</string>
+    <string name="label_holiday_today">Today is a weekly holiday</string>
+    <string name="label_all_classes_done">All classes completed for today</string>
+
+    <string name="onboarding_welcome_title">Welcome to Routine Manager</string>
+    <string name="onboarding_welcome_desc">Add your courses first, then create your weekly schedule with visual analog clocks.</string>
+    <string name="onboarding_start_prompt">Tap Start to begin setting up your routine</string>
+    <string name="onboarding_course_first">Please create at least one course before building your routine.</string>
+    <string name="onboarding_gesture_tip">Swipe left or right to browse classes. Swipe down to cancel. Swipe up to edit.</string>
+
+    <string name="reschedule_option_occurrence">This occurrence only</string>
+    <string name="reschedule_option_permanent">All future occurrences (Permanent)</string>
+    <string name="reschedule_dialog_title">Edit Class Schedule</string>
+    <string name="reschedule_dialog_desc">Choose whether to apply this change to today only or to the permanent weekly routine.</string>
+
+    <string name="setting_animation_intensity">Animation Intensity</string>
+    <string name="setting_intensity_reduced">Reduced</string>
+    <string name="setting_intensity_balanced">Balanced</string>
+    <string name="setting_intensity_expressive">Expressive</string>
+    <string name="setting_replay_onboarding">Replay Feature Guides</string>
+    <string name="setting_reset_onboarding">Reset Onboarding</string>
+    <string name="setting_manage_courses">Manage Courses</string>
+    <string name="setting_edit_routine">Edit Weekly Routine</string>
+    <string name="setting_app_info">About Routine Manager</string>
+    <string name="setting_app_version">Version 1.0.0</string>
+
+    <string name="error_required_field">This field is required</string>
+    <string name="error_duplicate_course_code">A course with this code already exists</string>
+    <string name="error_invalid_hex">Invalid hex color format</string>
+    <string name="error_end_time_before_start">End time must be after start time</string>
+    <string name="error_class_conflict">This class overlaps with another scheduled class</string>
+    <string name="error_break_conflict">This class overlaps with the configured daily break</string>
+
+    <string name="confirm_delete_course_title">Delete Course?</string>
+    <string name="confirm_delete_course_msg">This course is part of your weekly routine. Deleting it will remove its scheduled classes.</string>
+    <string name="confirm_reset_onboarding">Reset all onboarding tutorials? Your routines and courses will remain safe.</string>
+
+    <string name="notification_keep_alive_title">Routine Manager is active</string>
+    <string name="notification_keep_alive_desc">Keeping your schedule synced in the background</string>
+
+    <string name="am">AM</string>
+    <string name="pm">PM</string>
 </resources>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.App.Primary.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">@dimen/text_size_headline</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.App.Primary.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.App.Primary.Subtitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.App.Primary.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.App.Primary.Label" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">@dimen/text_size_label</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.App.Secondary.Headline" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">@dimen/text_size_headline</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.App.Secondary.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.App.Secondary.Subtitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.App.Secondary.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.App.Secondary.Label" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">@dimen/text_size_label</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.App.Secondary.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">@dimen/text_size_caption</item>
+        <item name="android:textColor">@color/text_muted</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Widget.App.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/button_background_selector</item>
+        <item name="android:textColor">@color/button_text_selector</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="elevation">@dimen/elevation_low</item>
+        <item name="android:outlineAmbientShadowColor">@color/shadow</item>
+        <item name="android:outlineSpotShadowColor">@color/shadow</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="strokeColor">@android:color/transparent</item>
+        <item name="rippleColor">@color/shadow</item>
+    </style>
+
+    <style name="Widget.App.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/surface_card</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
+        <item name="cardElevation">@dimen/elevation_medium</item>
+        <item name="android:outlineAmbientShadowColor">@color/shadow</item>
+        <item name="android:outlineSpotShadowColor">@color/shadow</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="strokeColor">@android:color/transparent</item>
+        <item name="rippleColor">@color/shadow</item>
+    </style>
+
+    <style name="Widget.App.Chip" parent="Widget.Material3.Chip.Assist">
+        <item name="chipBackgroundColor">@color/surface_muted</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="chipElevation">@dimen/elevation_none</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipStrokeColor">@android:color/transparent</item>
+        <item name="android:textColor">@color/text_on_surface</item>
+    </style>
+
+    <style name="Widget.App.TextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxBackgroundColor">@color/surface_muted</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="hintTextColor">@color/text_muted</item>
+        <item name="android:textColorHint">@color/text_muted</item>
+    </style>
+
+    <style name="Widget.App.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.LargeComponent</item>
+        <item name="colorSurface">@color/background</item>
+        <item name="elevation">@dimen/elevation_high</item>
+        <item name="android:outlineAmbientShadowColor">@color/shadow</item>
+        <item name="android:outlineSpotShadowColor">@color/shadow</item>
+    </style>
+
+    <style name="Widget.App.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.ExtraLargeComponent</item>
+        <item name="backgroundTint">@color/background</item>
+        <item name="elevation">@dimen/elevation_high</item>
+        <item name="android:outlineAmbientShadowColor">@color/shadow</item>
+        <item name="android:outlineSpotShadowColor">@color/shadow</item>
+    </style>
+</resources>

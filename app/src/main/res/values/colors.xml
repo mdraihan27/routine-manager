@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="palette_cream">#F9F7F6</color>
+    <color name="palette_ink">#050504</color>
+    <color name="palette_shadow">#1A000000</color>
+    <color name="palette_white">#FFFFFF</color>
+    <color name="palette_muted_surface">#EFECE8</color>
+    <color name="palette_muted_text">#787571</color>
+    <color name="palette_accent_subtle">#E2DFD8</color>
+
+    <color name="background">@color/palette_cream</color>
+    <color name="on_button">@color/palette_cream</color>
+    <color name="button_background">@color/palette_ink</color>
+    <color name="text_on_surface">@color/palette_ink</color>
+    <color name="shadow">@color/palette_shadow</color>
+    <color name="surface_card">@color/palette_white</color>
+    <color name="surface_muted">@color/palette_muted_surface</color>
+    <color name="text_muted">@color/palette_muted_text</color>
+    <color name="surface_subtle">@color/palette_accent_subtle</color>
 </resources>

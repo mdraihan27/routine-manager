@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="course_pistachio">#CEE9BD</color>
+    <color name="course_stone">#E0D5CF</color>
+    <color name="course_sage">#BCC5AD</color>
+    <color name="course_lavender">#CEC8ED</color>
+    <color name="course_sand">#D5BE99</color>
+    <color name="course_mauve">#CEACBD</color>
+    <color name="course_rose">#C17596</color>
+    <color name="course_butter">#FDF79E</color>
+    <color name="course_blush">#EBD1C6</color>
+    <color name="course_sky">#7EAAEE</color>
+    <color name="course_pink">#EAAAB2</color>
+    <color name="course_aqua">#94D3D5</color>
+    <color name="course_candy">#FBA7C3</color>
+    <color name="course_coral">#FBB5A7</color>
+    <color name="course_apricot">#FBDFA7</color>
+    <color name="course_cornflower">#B0C8F2</color>
+    <color name="course_iris">#B9B0F2</color>
+    <color name="course_orchid">#DAB0F2</color>
+</resources>
