@@ -28,6 +28,19 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".core.background.AppKeepAliveService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <receiver
+            android:name=".core.background.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <action
+        android:id="@+id/action_global_courseListFragment"
+        app:destination="@id/courseListFragment" />
+
+    <action
+        android:id="@+id/action_global_courseEditFragment"
+        app:destination="@id/courseEditFragment" />
+
+    <action
+        android:id="@+id/action_global_routineWizardFragment"
+        app:destination="@id/routineWizardFragment" />
+
+    <action
+        android:id="@+id/action_global_settingsFragment"
+        app:destination="@id/settingsFragment" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="io.github.mdraihan27.routinemanager.feature.home.presentation.HomeFragment"
+        android:label="HomeFragment" />
+
+    <fragment
+        android:id="@+id/courseListFragment"
+        android:name="io.github.mdraihan27.routinemanager.feature.course.presentation.list.CourseListFragment"
+        android:label="CourseListFragment" />
+
+    <fragment
+        android:id="@+id/courseEditFragment"
+        android:name="io.github.mdraihan27.routinemanager.feature.course.presentation.edit.CourseEditFragment"
+        android:label="CourseEditFragment">
+        <argument
+            android:name="course_id"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/routineWizardFragment"
+        android:name="io.github.mdraihan27.routinemanager.feature.routine.presentation.RoutineWizardFragment"
+        android:label="RoutineWizardFragment" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="io.github.mdraihan27.routinemanager.feature.settings.presentation.SettingsFragment"
+        android:label="SettingsFragment" />
+
 </navigation>

@@ -23,4 +23,8 @@ public abstract class AppModule {
 
     @Binds
     public abstract MotionPreferences bindMotionPreferences(MotionPreferencesImpl impl);
+
+    @Binds
+    public abstract io.github.mdraihan27.routinemanager.core.datastore.PreferencesDataSource bindPreferencesDataSource(
+            io.github.mdraihan27.routinemanager.core.datastore.PreferencesDataSourceImpl impl);
 }

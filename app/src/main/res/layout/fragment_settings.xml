@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium">
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppTopBar
+            android:id="@+id/settingsTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/setting_animation_intensity"
+            android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnIntensityReduced"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_tiny"
+                android:text="@string/setting_intensity_reduced" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnIntensityBalanced"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_tiny"
+                android:text="@string/setting_intensity_balanced" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnIntensityExpressive"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/setting_intensity_expressive" />
+        </LinearLayout>
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnManageCourses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:text="@string/setting_manage_courses" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnEditRoutine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/setting_edit_routine" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnReplayOnboarding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/setting_replay_onboarding" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnResetOnboarding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/setting_reset_onboarding" />
+
+        <TextView
+            android:id="@+id/tvAppInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:gravity="center"
+            android:text="@string/setting_app_version"
+            android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
+    </LinearLayout>
+</ScrollView>
