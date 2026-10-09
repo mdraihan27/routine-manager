@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium">
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppTopBar
+            android:id="@+id/galleryTopBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnEnabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/action_start" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnDisabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:enabled="false"
+            android:text="@string/action_save" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+            android:id="@+id/sampleCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_medium">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_tiny"
+                    android:text="@string/onboarding_welcome_desc"
+                    android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+            </LinearLayout>
+        </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+            android:id="@+id/sampleChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/spacing_medium"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingEnd="@dimen/spacing_medium"
+                android:paddingBottom="@dimen/spacing_small"
+                android:text="@string/day_saturday"
+                android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+        </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+            android:id="@+id/sampleIconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput
+            android:id="@+id/sampleInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:hint="@string/hint_course_code">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput>
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppSwitch
+            android:id="@+id/sampleSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/setting_animation_intensity" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AnalogClockView
+            android:id="@+id/sampleClock"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/analog_clock_size"
+            android:layout_marginTop="@dimen/spacing_medium" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.CurvedArrowView
+            android:id="@+id/sampleArrow"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/spacing_medium" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.ColorPickerView
+            android:id="@+id/sampleColorPicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium" />
+    </LinearLayout>
+</ScrollView>

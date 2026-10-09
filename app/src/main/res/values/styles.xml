@@ -93,7 +93,7 @@
     <style name="Widget.App.Chip" parent="Widget.Material3.Chip.Assist">
         <item name="chipBackgroundColor">@color/surface_muted</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
-        <item name="chipElevation">@dimen/elevation_none</item>
+        <item name="android:elevation">@dimen/elevation_none</item>
         <item name="chipStrokeWidth">0dp</item>
         <item name="chipStrokeColor">@android:color/transparent</item>
         <item name="android:textColor">@color/text_on_surface</item>
