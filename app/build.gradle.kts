@@ -34,6 +34,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    lint {
+        lintConfig = file("lint.xml")
+    }
 }
 
 dependencies {

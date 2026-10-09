@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="NewApi">
+        <ignore path="src/main/res/values/styles.xml" />
+        <ignore path="src/main/res/values/themes.xml" />
+    </issue>
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="AndroidGradlePluginVersion" severity="ignore" />
+</lint>

@@ -183,7 +183,7 @@ public class AnalogClockView extends View {
                 float nx = (float) (centerX + numbersRadius * Math.cos(angle));
                 float ny = (float) (centerY + numbersRadius * Math.sin(angle));
 
-                String text = String.format("%02d", m);
+                String text = String.format(java.util.Locale.getDefault(), "%02d", m);
                 textPaint.getTextBounds(text, 0, text.length(), textBounds);
                 float textY = ny + textBounds.height() / 2f;
 
