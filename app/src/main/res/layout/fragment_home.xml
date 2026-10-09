@@ -15,9 +15,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/spacing_medium"
-            android:paddingTop="@dimen/spacing_large"
-            android:paddingBottom="@dimen/spacing_huge">
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="100dp">
 
+            <!-- ── Header row: title + settings button ── -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/app_name"
-                        android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+                        android:textAppearance="@style/TextAppearance.App.Primary.Title" />
 
                     <TextView
                         android:id="@+id/tvHomeDateSubtitle"
@@ -45,20 +46,29 @@
                         android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
                 </LinearLayout>
 
-                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
-                    android:id="@+id/btnHomeAddCourse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/spacing_small"
-                    android:contentDescription="@string/action_add_course" />
-
-                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                <ImageView
                     android:id="@+id/btnHomeSettings"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="@dimen/spacing_medium"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/title_settings"
+                    android:padding="4dp"
+                    app:tint="@color/text_on_surface" />
+
+                <TextView
+                    android:id="@+id/btnHomeViewCourses"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/title_settings" />
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingHorizontal="@dimen/spacing_small"
+                    android:paddingVertical="@dimen/spacing_tiny"
+                    android:text="@string/title_courses"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label"
+                    android:textColor="@color/text_on_surface" />
             </LinearLayout>
 
+            <!-- ── Onboarding card ── -->
             <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
                 android:id="@+id/cardOnboarding"
                 android:layout_width="match_parent"
@@ -137,6 +147,7 @@
                 </LinearLayout>
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
+            <!-- ── Gesture tip banner ── -->
             <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
                 android:id="@+id/cardGestureTip"
                 android:layout_width="match_parent"
@@ -167,6 +178,7 @@
                 </LinearLayout>
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
+            <!-- ── Daily class section ── -->
             <LinearLayout
                 android:id="@+id/layoutClassSection"
                 android:layout_width="match_parent"
@@ -187,6 +199,7 @@
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_large">
 
+                        <!-- Status chip + course code row -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -215,6 +228,7 @@
                             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
                         </LinearLayout>
 
+                        <!-- Course name -->
                         <TextView
                             android:id="@+id/tvClassCourseName"
                             android:layout_width="match_parent"
@@ -222,6 +236,7 @@
                             android:layout_marginTop="@dimen/spacing_small"
                             android:textAppearance="@style/TextAppearance.App.Primary.Title" />
 
+                        <!-- Teacher -->
                         <TextView
                             android:id="@+id/tvClassTeacherName"
                             android:layout_width="match_parent"
@@ -229,6 +244,7 @@
                             android:layout_marginTop="@dimen/spacing_tiny"
                             android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
 
+                        <!-- Time + position row -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -252,6 +268,7 @@
                     </LinearLayout>
                 </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
+                <!-- Action strip: ← | cancel | ✏ | → -->
                 <LinearLayout
                     android:id="@+id/layoutClassActions"
                     android:layout_width="match_parent"
@@ -290,6 +307,7 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- ── Holiday card ── -->
             <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
                 android:id="@+id/cardHoliday"
                 android:layout_width="match_parent"
@@ -318,6 +336,7 @@
                 </LinearLayout>
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
+            <!-- ── Break card ── -->
             <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
                 android:id="@+id/cardBreak"
                 android:layout_width="match_parent"
@@ -346,6 +365,7 @@
                 </LinearLayout>
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
+            <!-- ── No classes card ── -->
             <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
                 android:id="@+id/cardNoClasses"
                 android:layout_width="match_parent"
@@ -367,6 +387,7 @@
                 </LinearLayout>
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
+            <!-- ── Undo cancel banner ── -->
             <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
                 android:id="@+id/cardUndoBanner"
                 android:layout_width="match_parent"
@@ -396,6 +417,7 @@
                 </LinearLayout>
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
+            <!-- ── Loading indicator ── -->
             <ProgressBar
                 android:id="@+id/progressHome"
                 android:layout_width="wrap_content"
@@ -406,5 +428,32 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- ── Bottom persistent action buttons ── -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/background"
+        android:elevation="@dimen/elevation_medium"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/spacing_medium"
+        android:paddingVertical="@dimen/spacing_medium">
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnBottomAddCourse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_weight="1"
+            android:text="@string/action_add_course" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+            android:id="@+id/btnBottomAdjustRoutine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Adjust Routine" />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -48,7 +48,7 @@ public final class CourseMapper {
         }
 
         return new CourseEntity(
-                domain.getId(),
+                domain.getId() > 0 ? domain.getId() : 0L,
                 domain.getCode(),
                 domain.getName(),
                 domain.getTeacherName(),

@@ -29,7 +29,6 @@ public class CourseEditFragment extends BaseFragment<FragmentCourseEditBinding> 
 
     private CourseEditViewModel viewModel;
     private long courseId = -1L;
-    private ArrayAdapter<String> teacherAdapter;
 
     @NonNull
     @Override
@@ -55,8 +54,6 @@ public class CourseEditFragment extends BaseFragment<FragmentCourseEditBinding> 
             getBinding().btnDeleteCourse.setVisibility(View.GONE);
         }
 
-        teacherAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line);
-        getBinding().editTeacherName.setAdapter(teacherAdapter);
 
         getBinding().btnSaveCourse.setOnClickListener(v -> handleSave());
         getBinding().btnDeleteCourse.setOnClickListener(v -> handleDelete());
@@ -67,9 +64,9 @@ public class CourseEditFragment extends BaseFragment<FragmentCourseEditBinding> 
                 return;
             }
 
-            teacherAdapter.clear();
-            teacherAdapter.addAll(state.getTeacherSuggestions());
-            teacherAdapter.notifyDataSetChanged();
+            if (state.getErrorMessage() != null && !state.getErrorMessage().isEmpty()) {
+                android.widget.Toast.makeText(requireContext(), state.getErrorMessage(), android.widget.Toast.LENGTH_SHORT).show();
+            }
 
             Course course = state.getInitialCourse();
             if (course != null && getBinding().editCourseCode.getText().length() == 0) {

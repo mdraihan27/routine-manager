@@ -21,6 +21,7 @@
 
     <string name="title_home">Schedule</string>
     <string name="title_courses">Courses</string>
+    <string name="action_view_courses">View Courses</string>
     <string name="title_add_course">Add Course</string>
     <string name="title_edit_course">Edit Course</string>
     <string name="title_routine_wizard">Routine Setup</string>

@@ -103,7 +103,8 @@
         <item name="boxBackgroundMode">filled</item>
         <item name="boxBackgroundColor">@color/surface_muted</item>
         <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="boxStrokeColor">@color/text_on_surface</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
         <item name="hintTextColor">@color/text_muted</item>
         <item name="android:textColorHint">@color/text_muted</item>

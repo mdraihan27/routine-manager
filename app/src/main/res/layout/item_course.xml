@@ -12,13 +12,6 @@
         android:orientation="horizontal"
         android:padding="@dimen/spacing_medium">
 
-        <View
-            android:id="@+id/courseColorIndicator"
-            android:layout_width="@dimen/spacing_compact"
-            android:layout_height="@dimen/icon_button_size"
-            android:layout_marginEnd="@dimen/spacing_medium"
-            android:background="@drawable/ic_launcher_background" />
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

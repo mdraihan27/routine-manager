@@ -72,12 +72,7 @@ public class CourseListAdapter extends ListAdapter<Course, CourseListAdapter.Vie
             binding.tvTeacherName.setText(course.getTeacherName());
 
             int color = colorResolver.resolve(course.getColor());
-            float corner = itemView.getResources().getDimension(R.dimen.corner_small);
-            GradientDrawable gd = new GradientDrawable();
-            gd.setShape(GradientDrawable.RECTANGLE);
-            gd.setCornerRadius(corner);
-            gd.setColor(color);
-            binding.courseColorIndicator.setBackground(gd);
+            binding.getRoot().setCardBackgroundColor(color);
 
             itemView.setOnClickListener(v -> clickListener.onCourseClick(course));
         }

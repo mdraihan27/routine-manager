@@ -61,11 +61,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     private void setupTopBar() {
         FragmentHomeBinding binding = getBinding();
-        binding.btnHomeAddCourse.setImageResource(R.drawable.ic_add);
-        binding.btnHomeAddCourse.setOnClickListener(v ->
-                navigator.navigateToAddCourse(this));
 
-        binding.btnHomeSettings.setImageResource(R.drawable.ic_settings);
+        binding.btnHomeViewCourses.setOnClickListener(v ->
+                navigator.navigateToCourses(this));
+
         binding.btnHomeSettings.setOnClickListener(v ->
                 navigator.navigateToSettings(this));
 
@@ -113,6 +112,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     private void setupActionButtons() {
         FragmentHomeBinding binding = getBinding();
+
+        binding.btnBottomAddCourse.setOnClickListener(v ->
+                navigator.navigateToAddCourse(this));
+
+        binding.btnBottomAdjustRoutine.setOnClickListener(v ->
+                navigator.navigateToRoutineWizard(this));
 
         binding.btnDismissOnboarding.setOnClickListener(v ->
                 viewModel.onEvent(new HomeUiEvent.DismissOnboarding()));

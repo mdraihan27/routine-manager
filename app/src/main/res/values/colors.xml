@@ -17,4 +17,5 @@
     <color name="surface_muted">@color/palette_muted_surface</color>
     <color name="text_muted">@color/palette_muted_text</color>
     <color name="surface_subtle">@color/palette_accent_subtle</color>
+    <color name="ic_launcher_background">#F9F7F6</color>
 </resources>
