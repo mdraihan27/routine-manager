@@ -1,14 +1,410 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <TextView
-        android:id="@+id/homePlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/title_home"
-        android:textAppearance="@style/TextAppearance.App.Primary.Title" />
-</FrameLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_medium"
+            android:paddingTop="@dimen/spacing_large"
+            android:paddingBottom="@dimen/spacing_huge">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvHomeAppTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+
+                    <TextView
+                        android:id="@+id/tvHomeDateSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_tiny"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
+                </LinearLayout>
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                    android:id="@+id/btnHomeAddCourse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_small"
+                    android:contentDescription="@string/action_add_course" />
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                    android:id="@+id/btnHomeSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/title_settings" />
+            </LinearLayout>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                android:id="@+id/cardOnboarding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_large">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/onboarding_welcome_title"
+                            android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+                        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                            android:id="@+id/btnDismissOnboarding"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/action_cancel" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:text="@string/onboarding_welcome_desc"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.CurvedArrowView
+                        android:id="@+id/arrowOnboarding"
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:layout_marginVertical="@dimen/spacing_small" />
+
+                    <TextView
+                        android:id="@+id/tvOnboardingPrompt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/onboarding_start_prompt"
+                        android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_medium"
+                        android:orientation="horizontal">
+
+                        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                            android:id="@+id/btnOnboardingAddCourse"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="@dimen/spacing_small"
+                            android:text="@string/action_add_course" />
+
+                        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                            android:id="@+id/btnOnboardingStart"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/action_start" />
+                    </LinearLayout>
+                </LinearLayout>
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                android:id="@+id/cardGestureTip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_medium">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/onboarding_gesture_tip"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                        android:id="@+id/btnDismissGestureTip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_small"
+                        android:contentDescription="@string/action_cancel" />
+                </LinearLayout>
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+            <LinearLayout
+                android:id="@+id/layoutClassSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                    android:id="@+id/cardDailyClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/layoutCardContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_large">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvClassCourseCode"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+
+                            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                                android:id="@+id/chipClassStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/tvClassStatusLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingHorizontal="@dimen/spacing_small"
+                                    android:paddingVertical="@dimen/spacing_tiny"
+                                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+                            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvClassCourseName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_small"
+                            android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+                        <TextView
+                            android:id="@+id/tvClassTeacherName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_tiny"
+                            android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_large"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvClassTime"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
+
+                            <TextView
+                                android:id="@+id/tvClassPosition"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+                <LinearLayout
+                    android:id="@+id/layoutClassActions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                        android:id="@+id/btnClassPrevious"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:contentDescription="@string/action_back" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                        android:id="@+id/btnClassCancelAction"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:text="@string/action_cancel" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                        android:id="@+id/btnClassEditAction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_small"
+                        android:contentDescription="@string/action_edit" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
+                        android:id="@+id/btnClassNext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/action_next" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                android:id="@+id/cardHoliday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_large">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_holiday"
+                        android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:text="@string/label_holiday_today"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+                </LinearLayout>
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                android:id="@+id/cardBreak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_large">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_break_time"
+                        android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+                    <TextView
+                        android:id="@+id/tvBreakStatusMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+                </LinearLayout>
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                android:id="@+id/cardNoClasses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_large">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_no_classes_today"
+                        android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+                </LinearLayout>
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                android:id="@+id/cardUndoBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_medium">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/label_cancelled"
+                        android:textAppearance="@style/TextAppearance.App.Primary.Body" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                        android:id="@+id/btnUndoCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_undo" />
+                </LinearLayout>
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+            <ProgressBar
+                android:id="@+id/progressHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

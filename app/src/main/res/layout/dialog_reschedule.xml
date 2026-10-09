@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reschedule_dialog_title"
+            android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:text="@string/reschedule_dialog_desc"
+            android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
+
+        <RadioGroup
+            android:id="@+id/rgRescheduleScope"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium">
+
+            <RadioButton
+                android:id="@+id/rbOccurrenceOnly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/reschedule_option_occurrence"
+                android:textAppearance="@style/TextAppearance.App.Primary.Body" />
+
+            <RadioButton
+                android:id="@+id/rbPermanent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_tiny"
+                android:text="@string/reschedule_option_permanent"
+                android:textAppearance="@style/TextAppearance.App.Primary.Body" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnRescheduleStartTab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_tiny"
+                android:text="@string/label_start_time" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnRescheduleEndTab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_end_time" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvReschedulePreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipRescheduleHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_tiny">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="Hour"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipRescheduleMinute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="Minute"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipRescheduleAm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_tiny">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/am"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipReschedulePm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/pm"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+        </LinearLayout>
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AnalogClockView
+            android:id="@+id/clockReschedule"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/analog_clock_size"
+            android:layout_marginTop="@dimen/spacing_small" />
+
+        <TextView
+            android:id="@+id/tvRescheduleError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:textAppearance="@style/TextAppearance.App.Secondary.Caption"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnCancelReschedule"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@string/action_cancel" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnConfirmReschedule"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_confirm" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
