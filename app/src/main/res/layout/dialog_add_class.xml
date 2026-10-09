@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium">
+
+        <TextView
+            android:id="@+id/tvAddClassDialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_add_class"
+            android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="1. Select Course"
+            android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/dialogCourseChipsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/tvSelectedCourseName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="2. Select Time"
+            android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnTabStartTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_tiny"
+                android:text="@string/label_start_time" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnTabEndTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_end_time" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvClassTimePreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipClockHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_tiny">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="Hour"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipClockMinute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="Minute"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipClockAm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_tiny">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/am"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipClockPm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/pm"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+        </LinearLayout>
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AnalogClockView
+            android:id="@+id/dialogClassClock"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/analog_clock_size"
+            android:layout_marginTop="@dimen/spacing_small" />
+
+        <TextView
+            android:id="@+id/tvClassTimeError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:textColor="@color/text_on_surface"
+            android:textAppearance="@style/TextAppearance.App.Secondary.Caption"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnCancelAddClass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@string/action_cancel" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnConfirmAddClass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_confirm" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_step_break"
+            android:textAppearance="@style/TextAppearance.App.Primary.Title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_tiny"
+            android:text="Configure your daily break time using the clock dial below."
+            android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnSelectBreakStart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_tiny"
+                android:text="@string/label_break_start" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnSelectBreakEnd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_break_end" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvBreakTimeDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipBreakHourMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_tiny">
+                <TextView
+                    android:id="@+id/tvChipBreakHour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="Hour"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipBreakMinuteMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_medium">
+                <TextView
+                    android:id="@+id/tvChipBreakMinute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="Minute"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipBreakAm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_tiny">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/am"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                android:id="@+id/chipBreakPm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/pm"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+        </LinearLayout>
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AnalogClockView
+            android:id="@+id/breakClock"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/analog_clock_size"
+            android:layout_marginTop="@dimen/spacing_medium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:orientation="horizontal">
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnSkipBreak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_small"
+                android:text="@string/action_skip" />
+
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                android:id="@+id/btnContinueFromBreak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_continue" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
