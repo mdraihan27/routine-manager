@@ -11,6 +11,7 @@ import io.github.mdraihan27.routinemanager.core.designsystem.motion.MotionPrefer
 import io.github.mdraihan27.routinemanager.core.threading.AppSchedulers;
 import io.github.mdraihan27.routinemanager.feature.settings.presentation.SettingsUiEvent;
 import io.github.mdraihan27.routinemanager.feature.settings.presentation.SettingsViewModel;
+import io.github.mdraihan27.routinemanager.feature.settings.data.repository.BackupRepository;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
@@ -98,6 +99,81 @@ public class SettingsViewModelTest {
         public Observable<Boolean> observeInitialOnboarding() {
             return Observable.just(false);
         }
+
+        @Override
+        public boolean isRoutineOverviewVertical() {
+            return true;
+        }
+
+        @Override
+        public Completable setRoutineOverviewVertical(boolean vertical) {
+            return Completable.complete();
+        }
+
+        @Override
+        public Observable<Boolean> observeRoutineOverviewVertical() {
+            return Observable.just(true);
+        }
+
+        @Override
+        public boolean isPersistentNotificationEnabled() {
+            return false;
+        }
+
+        @Override
+        public Completable setPersistentNotificationEnabled(boolean enabled) {
+            return Completable.complete();
+        }
+
+        @Override
+        public Observable<Boolean> observePersistentNotificationEnabled() {
+            return Observable.just(false);
+        }
+
+        @Override
+        public boolean isClassAlarmEnabled() {
+            return false;
+        }
+
+        @Override
+        public Completable setClassAlarmEnabled(boolean enabled) {
+            return Completable.complete();
+        }
+
+        @Override
+        public Observable<Boolean> observeClassAlarmEnabled() {
+            return Observable.just(false);
+        }
+
+        @Override
+        public int getClassAlarmMinutesBefore() {
+            return 15;
+        }
+
+        @Override
+        public Completable setClassAlarmMinutesBefore(int minutes) {
+            return Completable.complete();
+        }
+
+        @Override
+        public Observable<Integer> observeClassAlarmMinutesBefore() {
+            return Observable.just(15);
+        }
+
+        @Override
+        public String getThemeMode() {
+            return "Auto";
+        }
+
+        @Override
+        public Completable setThemeMode(String mode) {
+            return Completable.complete();
+        }
+
+        @Override
+        public Observable<String> observeThemeMode() {
+            return Observable.just("Auto");
+        }
     }
 
     @Test
@@ -105,8 +181,9 @@ public class SettingsViewModelTest {
         FakeMotionPreferences motionPreferences = new FakeMotionPreferences();
         FakePreferencesDataSource preferencesDataSource = new FakePreferencesDataSource();
         TestSchedulers schedulers = new TestSchedulers();
+        BackupRepository mockBackupRepository = null;
 
-        SettingsViewModel viewModel = new SettingsViewModel(motionPreferences, preferencesDataSource, schedulers);
+        SettingsViewModel viewModel = new SettingsViewModel(motionPreferences, preferencesDataSource, schedulers, mockBackupRepository);
 
         assertEquals(AnimationIntensity.BALANCED, viewModel.getState().getValue().getIntensity());
 
