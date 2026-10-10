@@ -22,4 +22,20 @@ public interface PreferencesDataSource {
 
     @NonNull
     Observable<Boolean> observeInitialOnboarding();
+
+    boolean isRoutineOverviewVertical();
+
+    @NonNull
+    Completable setRoutineOverviewVertical(boolean vertical);
+
+    @NonNull
+    Observable<Boolean> observeRoutineOverviewVertical();
+
+    boolean isPersistentNotificationEnabled();
+
+    @NonNull
+    Completable setPersistentNotificationEnabled(boolean enabled);
+
+    @NonNull
+    Observable<Boolean> observePersistentNotificationEnabled();
 }

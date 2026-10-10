@@ -8,5 +8,7 @@ public interface BackgroundKeepAliveManager {
 
     void startKeepAlive();
 
+    void stopKeepAlive();
+
     void requestDisableBatteryOptimizations(@NonNull Activity activity);
 }

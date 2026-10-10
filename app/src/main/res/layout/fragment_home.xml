@@ -46,16 +46,6 @@
                         android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/btnHomeSettings"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="@dimen/spacing_medium"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/title_settings"
-                    android:padding="4dp"
-                    app:tint="@color/text_on_surface" />
-
                 <TextView
                     android:id="@+id/btnHomeViewCourses"
                     android:layout_width="wrap_content"
@@ -190,12 +180,12 @@
                 <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
                     android:id="@+id/cardDailyClass"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="220dp">
 
                     <LinearLayout
                         android:id="@+id/layoutCardContent"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_large">
 
@@ -213,19 +203,34 @@
                                 android:layout_weight="1"
                                 android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
 
-                            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
-                                android:id="@+id/chipClassStatus"
+                            <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="center_horizontal">
 
-                                <TextView
-                                    android:id="@+id/tvClassStatusLabel"
+                                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
+                                    android:id="@+id/chipClassStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/tvClassStatusLabel"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:paddingHorizontal="@dimen/spacing_small"
+                                        android:paddingVertical="@dimen/spacing_tiny"
+                                        android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+                                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+
+                                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                                    android:id="@+id/btnUndoCancel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:paddingHorizontal="@dimen/spacing_small"
-                                    android:paddingVertical="@dimen/spacing_tiny"
-                                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
-                            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+                                    android:layout_marginTop="@dimen/spacing_tiny"
+                                    android:text="@string/action_undo"
+                                    android:visibility="gone" />
+                            </LinearLayout>
                         </LinearLayout>
 
                         <!-- Course name -->
@@ -234,6 +239,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_small"
+                            android:maxLines="2"
+                            android:ellipsize="end"
                             android:textAppearance="@style/TextAppearance.App.Primary.Title" />
 
                         <!-- Teacher -->
@@ -242,7 +249,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/spacing_tiny"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
 
                         <!-- Time + position row -->
                         <LinearLayout
@@ -268,43 +282,31 @@
                     </LinearLayout>
                 </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
-                <!-- Action strip: ← | cancel | ✏ | → -->
-                <LinearLayout
-                    android:id="@+id/layoutClassActions"
+                <!-- Swipe Hint -->
+                <TextView
+                    android:id="@+id/tvSwipeHint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_medium"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:text="Swipe: ←/→ to change, ↓ to cancel, ↑ to reschedule"
+                    android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
 
-                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
-                        android:id="@+id/btnClassPrevious"
-                        android:layout_width="wrap_content"
+                <!-- Weekly Overview -->
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                    android:id="@+id/cardWeeklyOverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large">
+                    
+                    <LinearLayout
+                        android:id="@+id/layoutWeeklyOverview"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_small"
-                        android:contentDescription="@string/action_back" />
-
-                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-                        android:id="@+id/btnClassCancelAction"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="@dimen/spacing_small"
-                        android:text="@string/action_cancel" />
-
-                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
-                        android:id="@+id/btnClassEditAction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_small"
-                        android:contentDescription="@string/action_edit" />
-
-                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppIconButton
-                        android:id="@+id/btnClassNext"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/action_next" />
-                </LinearLayout>
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_medium"
+                        android:baselineAligned="false" />
+                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
             </LinearLayout>
 
             <!-- ── Holiday card ── -->
@@ -387,35 +389,7 @@
                 </LinearLayout>
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
-            <!-- ── Undo cancel banner ── -->
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
-                android:id="@+id/cardUndoBanner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/spacing_medium">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/label_cancelled"
-                        android:textAppearance="@style/TextAppearance.App.Primary.Body" />
-
-                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-                        android:id="@+id/btnUndoCancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/action_undo" />
-                </LinearLayout>
-            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
             <!-- ── Loading indicator ── -->
             <ProgressBar
@@ -440,13 +414,16 @@
         android:paddingHorizontal="@dimen/spacing_medium"
         android:paddingVertical="@dimen/spacing_medium">
 
-        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-            android:id="@+id/btnBottomAddCourse"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_small"
-            android:layout_weight="1"
-            android:text="@string/action_add_course" />
+        <ImageView
+            android:id="@+id/btnBottomSettings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/title_settings"
+            android:padding="12dp"
+            android:src="@drawable/ic_settings"
+            app:tint="@color/text_on_surface" />
 
         <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
             android:id="@+id/btnBottomAdjustRoutine"

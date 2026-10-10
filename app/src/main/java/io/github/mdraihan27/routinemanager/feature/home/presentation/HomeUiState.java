@@ -23,6 +23,8 @@ public final class HomeUiState implements UiState {
     private final int currentIndex;
     private final boolean canUndoCancel;
     private final long lastCancelledClassId;
+    private final java.util.Map<java.time.DayOfWeek, List<io.github.mdraihan27.routinemanager.feature.routine.domain.model.WeeklyClassWithCourse>> weeklyClasses;
+    private final boolean routineOverviewVertical;
     private final String message;
 
     public HomeUiState(boolean loading,
@@ -36,6 +38,8 @@ public final class HomeUiState implements UiState {
                        int currentIndex,
                        boolean canUndoCancel,
                        long lastCancelledClassId,
+                       @NonNull java.util.Map<java.time.DayOfWeek, List<io.github.mdraihan27.routinemanager.feature.routine.domain.model.WeeklyClassWithCourse>> weeklyClasses,
+                       boolean routineOverviewVertical,
                        @Nullable String message) {
         this.loading = loading;
         this.showOnboarding = showOnboarding;
@@ -48,6 +52,8 @@ public final class HomeUiState implements UiState {
         this.currentIndex = currentIndex;
         this.canUndoCancel = canUndoCancel;
         this.lastCancelledClassId = lastCancelledClassId;
+        this.weeklyClasses = java.util.Collections.unmodifiableMap(new java.util.HashMap<>(Objects.requireNonNull(weeklyClasses)));
+        this.routineOverviewVertical = routineOverviewVertical;
         this.message = message;
     }
 
@@ -64,6 +70,8 @@ public final class HomeUiState implements UiState {
                 0,
                 false,
                 -1L,
+                java.util.Collections.emptyMap(),
+                true,
                 null
         );
     }
@@ -113,9 +121,18 @@ public final class HomeUiState implements UiState {
         return lastCancelledClassId;
     }
 
+    @NonNull
+    public java.util.Map<java.time.DayOfWeek, List<io.github.mdraihan27.routinemanager.feature.routine.domain.model.WeeklyClassWithCourse>> getWeeklyClasses() {
+        return weeklyClasses;
+    }
+
     @Nullable
     public String getMessage() {
         return message;
+    }
+
+    public boolean isRoutineOverviewVertical() {
+        return routineOverviewVertical;
     }
 
     public boolean hasClasses() {
@@ -151,6 +168,8 @@ public final class HomeUiState implements UiState {
                 newIndex,
                 canUndoCancel,
                 lastCancelledClassId,
+                weeklyClasses,
+                routineOverviewVertical,
                 message
         );
     }
@@ -168,6 +187,8 @@ public final class HomeUiState implements UiState {
                 currentIndex,
                 canUndo,
                 cancelledId,
+                weeklyClasses,
+                routineOverviewVertical,
                 message
         );
     }
@@ -185,6 +206,8 @@ public final class HomeUiState implements UiState {
                 currentIndex,
                 canUndoCancel,
                 lastCancelledClassId,
+                weeklyClasses,
+                routineOverviewVertical,
                 message
         );
     }

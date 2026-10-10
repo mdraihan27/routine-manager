@@ -125,4 +125,8 @@
         <item name="android:outlineAmbientShadowColor">@color/shadow</item>
         <item name="android:outlineSpotShadowColor">@color/shadow</item>
     </style>
+
+    <style name="Theme.App.BottomSheetDialog" parent="Theme.Material3.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.App.BottomSheet</item>
+    </style>
 </resources>

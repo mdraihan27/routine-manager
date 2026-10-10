@@ -20,14 +20,23 @@ public final class PreferencesDataSourceImpl implements PreferencesDataSource {
     private static final String KEY_INITIAL_ONBOARDING = "initial_onboarding_completed";
     private static final String PREFIX_GUIDE = "guide_";
 
+    private static final String KEY_ROUTINE_OVERVIEW_VERTICAL = "routine_overview_vertical";
+    private static final String KEY_PERSISTENT_NOTIFICATION = "persistent_notification_enabled";
+
     private final SharedPreferences preferences;
     private final BehaviorSubject<Boolean> onboardingSubject;
+    private final BehaviorSubject<Boolean> verticalOverviewSubject;
+    private final BehaviorSubject<Boolean> persistentNotificationSubject;
 
     @Inject
     public PreferencesDataSourceImpl(@NonNull @ApplicationContext Context context) {
         this.preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean initial = preferences.getBoolean(KEY_INITIAL_ONBOARDING, false);
         this.onboardingSubject = BehaviorSubject.createDefault(initial);
+        boolean isVertical = preferences.getBoolean(KEY_ROUTINE_OVERVIEW_VERTICAL, true);
+        this.verticalOverviewSubject = BehaviorSubject.createDefault(isVertical);
+        boolean isPersistentNotif = preferences.getBoolean(KEY_PERSISTENT_NOTIFICATION, false);
+        this.persistentNotificationSubject = BehaviorSubject.createDefault(isPersistentNotif);
     }
 
     @Override
@@ -75,5 +84,45 @@ public final class PreferencesDataSourceImpl implements PreferencesDataSource {
     @Override
     public Observable<Boolean> observeInitialOnboarding() {
         return onboardingSubject.hide();
+    }
+
+    @Override
+    public boolean isRoutineOverviewVertical() {
+        return preferences.getBoolean(KEY_ROUTINE_OVERVIEW_VERTICAL, true);
+    }
+
+    @NonNull
+    @Override
+    public Completable setRoutineOverviewVertical(boolean vertical) {
+        return Completable.fromAction(() -> {
+            preferences.edit().putBoolean(KEY_ROUTINE_OVERVIEW_VERTICAL, vertical).apply();
+            verticalOverviewSubject.onNext(vertical);
+        });
+    }
+
+    @NonNull
+    @Override
+    public Observable<Boolean> observeRoutineOverviewVertical() {
+        return verticalOverviewSubject.hide();
+    }
+
+    @Override
+    public boolean isPersistentNotificationEnabled() {
+        return preferences.getBoolean(KEY_PERSISTENT_NOTIFICATION, false);
+    }
+
+    @NonNull
+    @Override
+    public Completable setPersistentNotificationEnabled(boolean enabled) {
+        return Completable.fromAction(() -> {
+            preferences.edit().putBoolean(KEY_PERSISTENT_NOTIFICATION, enabled).apply();
+            persistentNotificationSubject.onNext(enabled);
+        });
+    }
+
+    @NonNull
+    @Override
+    public Observable<Boolean> observePersistentNotificationEnabled() {
+        return persistentNotificationSubject.hide();
     }
 }

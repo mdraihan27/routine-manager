@@ -74,21 +74,10 @@ public class WizardClassAdapter extends ListAdapter<WeeklyClassWithCourse, Wizar
             Course course = item.getCourse();
 
             binding.tvWizardClassCode.setText(course.getCode());
-            binding.tvWizardClassName.setText(course.getName());
-            binding.tvWizardClassTime.setText(DateTimeFormatter.formatTimeRange(
-                    wc.getStartHour(),
-                    wc.getStartMinute(),
-                    wc.getEndHour(),
-                    wc.getEndMinute()
-            ));
 
             int color = colorResolver.resolve(course.getColor());
-            float corner = itemView.getResources().getDimension(R.dimen.corner_small);
-            GradientDrawable gd = new GradientDrawable();
-            gd.setShape(GradientDrawable.RECTANGLE);
-            gd.setCornerRadius(corner);
-            gd.setColor(color);
-            binding.wizardClassColorPill.setBackground(gd);
+            binding.getRoot().setCardBackgroundColor(color);
+            binding.tvWizardClassCode.setTextColor(itemView.getResources().getColor(R.color.text_on_surface));
 
             binding.btnDeleteWizardClass.setOnClickListener(v -> deleteClickListener.onDeleteClick(item));
         }

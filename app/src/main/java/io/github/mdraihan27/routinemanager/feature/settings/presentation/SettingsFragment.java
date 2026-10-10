@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.widget.ArrayAdapter;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import javax.inject.Inject;
@@ -52,15 +54,36 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
 
     private void setupClickListeners() {
         FragmentSettingsBinding binding = getBinding();
+        // Setup Animation Intensity Dropdown
+        String[] intensities = {
+            getString(R.string.setting_intensity_reduced),
+            getString(R.string.setting_intensity_balanced),
+            getString(R.string.setting_intensity_expressive)
+        };
+        ArrayAdapter<String> intensityAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, intensities);
+        binding.dropdownAnimationIntensity.setAdapter(intensityAdapter);
+        binding.dropdownAnimationIntensity.setOnItemClickListener((parent, view, position, id) -> {
+            AnimationIntensity intensity;
+            if (position == 0) intensity = AnimationIntensity.REDUCED;
+            else if (position == 1) intensity = AnimationIntensity.BALANCED;
+            else intensity = AnimationIntensity.EXPRESSIVE;
+            viewModel.onEvent(new SettingsUiEvent.SetIntensity(intensity));
+        });
 
-        binding.btnIntensityReduced.setOnClickListener(v ->
-                viewModel.onEvent(new SettingsUiEvent.SetIntensity(AnimationIntensity.REDUCED)));
+        // Setup Layout Dropdown
+        String[] layouts = {
+            getString(R.string.setting_layout_vertical),
+            getString(R.string.setting_layout_horizontal)
+        };
+        ArrayAdapter<String> layoutAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, layouts);
+        binding.dropdownRoutineLayout.setAdapter(layoutAdapter);
+        binding.dropdownRoutineLayout.setOnItemClickListener((parent, view, position, id) -> {
+            viewModel.onEvent(new SettingsUiEvent.SetRoutineOverviewVertical(position == 0));
+        });
 
-        binding.btnIntensityBalanced.setOnClickListener(v ->
-                viewModel.onEvent(new SettingsUiEvent.SetIntensity(AnimationIntensity.BALANCED)));
-
-        binding.btnIntensityExpressive.setOnClickListener(v ->
-                viewModel.onEvent(new SettingsUiEvent.SetIntensity(AnimationIntensity.EXPRESSIVE)));
+        binding.switchPersistentNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            viewModel.onEvent(new SettingsUiEvent.SetPersistentNotification(isChecked));
+        });
 
         binding.btnManageCourses.setOnClickListener(v ->
                 navigator.navigateToCourses(this));
@@ -85,9 +108,24 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
     private void renderState(@NonNull SettingsUiState state) {
         FragmentSettingsBinding binding = getBinding();
         AnimationIntensity intensity = state.getIntensity();
+        String intensityText;
+        if (intensity == AnimationIntensity.REDUCED) intensityText = getString(R.string.setting_intensity_reduced);
+        else if (intensity == AnimationIntensity.BALANCED) intensityText = getString(R.string.setting_intensity_balanced);
+        else intensityText = getString(R.string.setting_intensity_expressive);
+        
+        if (!binding.dropdownAnimationIntensity.getText().toString().equals(intensityText)) {
+            binding.dropdownAnimationIntensity.setText(intensityText, false);
+        }
 
-        binding.btnIntensityReduced.setAlpha(intensity == AnimationIntensity.REDUCED ? 1.0f : 0.45f);
-        binding.btnIntensityBalanced.setAlpha(intensity == AnimationIntensity.BALANCED ? 1.0f : 0.45f);
-        binding.btnIntensityExpressive.setAlpha(intensity == AnimationIntensity.EXPRESSIVE ? 1.0f : 0.45f);
+        boolean isVertical = state.isRoutineOverviewVertical();
+        String layoutText = isVertical ? getString(R.string.setting_layout_vertical) : getString(R.string.setting_layout_horizontal);
+        
+        if (!binding.dropdownRoutineLayout.getText().toString().equals(layoutText)) {
+            binding.dropdownRoutineLayout.setText(layoutText, false);
+        }
+
+        if (binding.switchPersistentNotification.isChecked() != state.isPersistentNotificationEnabled()) {
+            binding.switchPersistentNotification.setChecked(state.isPersistentNotificationEnabled());
+        }
     }
 }

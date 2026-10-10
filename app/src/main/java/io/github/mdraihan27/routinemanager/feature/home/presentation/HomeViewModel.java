@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -16,6 +19,7 @@ import io.github.mdraihan27.routinemanager.core.time.AppClock;
 import io.github.mdraihan27.routinemanager.feature.course.domain.model.Course;
 import io.github.mdraihan27.routinemanager.feature.course.domain.usecase.GetCoursesUseCase;
 import io.github.mdraihan27.routinemanager.feature.routine.domain.model.RoutineConfig;
+import io.github.mdraihan27.routinemanager.feature.routine.domain.model.WeeklyClassWithCourse;
 import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.GetRoutineConfigUseCase;
 import io.github.mdraihan27.routinemanager.feature.schedule.domain.model.DailyClassItem;
 import io.github.mdraihan27.routinemanager.feature.schedule.domain.model.DailySchedule;
@@ -36,6 +40,7 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
     private final RescheduleClassUseCase rescheduleClassUseCase;
     private final GetCoursesUseCase getCoursesUseCase;
     private final GetRoutineConfigUseCase getRoutineConfigUseCase;
+    private final io.github.mdraihan27.routinemanager.feature.schedule.domain.usecase.GetWeeklyClassesOverviewUseCase getWeeklyClassesOverviewUseCase;
     private final PreferencesDataSource preferencesDataSource;
     private final AppClock appClock;
     private final AppSchedulers appSchedulers;
@@ -47,6 +52,7 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
                          @NonNull RescheduleClassUseCase rescheduleClassUseCase,
                          @NonNull GetCoursesUseCase getCoursesUseCase,
                          @NonNull GetRoutineConfigUseCase getRoutineConfigUseCase,
+                         @NonNull io.github.mdraihan27.routinemanager.feature.schedule.domain.usecase.GetWeeklyClassesOverviewUseCase getWeeklyClassesOverviewUseCase,
                          @NonNull PreferencesDataSource preferencesDataSource,
                          @NonNull AppClock appClock,
                          @NonNull AppSchedulers appSchedulers) {
@@ -57,6 +63,7 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
         this.rescheduleClassUseCase = rescheduleClassUseCase;
         this.getCoursesUseCase = getCoursesUseCase;
         this.getRoutineConfigUseCase = getRoutineConfigUseCase;
+        this.getWeeklyClassesOverviewUseCase = getWeeklyClassesOverviewUseCase;
         this.preferencesDataSource = preferencesDataSource;
         this.appClock = appClock;
         this.appSchedulers = appSchedulers;
@@ -75,7 +82,7 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
         } else if (event instanceof HomeUiEvent.CancelCurrentClass) {
             cancelCurrent();
         } else if (event instanceof HomeUiEvent.UndoCancel) {
-            undoCancel();
+            undoCancel(((HomeUiEvent.UndoCancel) event).getClassId());
         } else if (event instanceof HomeUiEvent.DismissOnboarding) {
             dismissOnboarding();
         } else if (event instanceof HomeUiEvent.DismissGestureGuide) {
@@ -92,11 +99,16 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
                         getCoursesUseCase.execute(),
                         getRoutineConfigUseCase.execute(),
                         getTodayScheduleUseCase.execute(),
-                        (List<Course> courses, RoutineConfig routineConfig, DailySchedule dailySchedule) -> {
+                        getWeeklyClassesOverviewUseCase.execute(),
+                        preferencesDataSource.observeRoutineOverviewVertical().toFlowable(io.reactivex.rxjava3.core.BackpressureStrategy.LATEST),
+                        (List<Course> courses, RoutineConfig routineConfig, DailySchedule dailySchedule, List<WeeklyClassWithCourse> weeklyClasses, Boolean isVertical) -> {
                             boolean hasCourses = !courses.isEmpty();
                             boolean hasRoutine = routineConfig.isConfigured();
                             boolean showOnboarding = (!preferencesDataSource.hasCompletedInitialOnboarding() || !hasCourses || !hasRoutine);
                             boolean showGestureGuide = (hasRoutine && !dailySchedule.getClasses().isEmpty() && !preferencesDataSource.isGuideCompleted(GUIDE_GESTURE_CARD));
+
+                            Map<java.time.DayOfWeek, List<WeeklyClassWithCourse>> classesByDay = weeklyClasses.stream()
+                                    .collect(Collectors.groupingBy(wc -> wc.getWeeklyClass().getDayOfWeek()));
 
                             int index = dailySchedule.getCurrentClassIndex();
                             HomeUiState current = getState().getValue();
@@ -116,6 +128,8 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
                                     index,
                                     current != null && current.isCanUndoCancel(),
                                     current != null ? current.getLastCancelledClassId() : -1L,
+                                    classesByDay,
+                                    isVertical,
                                     null
                             );
                         }
@@ -139,6 +153,8 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
                                         current.getCurrentIndex(),
                                         false,
                                         -1L,
+                                        Collections.emptyMap(),
+                                        current.isRoutineOverviewVertical(),
                                         throwable.getMessage()
                                 ));
                             }
@@ -189,11 +205,7 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
         );
     }
 
-    private void undoCancel() {
-        HomeUiState state = getState().getValue();
-        if (state == null || !state.isCanUndoCancel() || state.getLastCancelledClassId() <= 0) return;
-
-        long classId = state.getLastCancelledClassId();
+    private void undoCancel(long classId) {
         LocalDate today = appClock.currentDate();
 
         addDisposable(

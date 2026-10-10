@@ -16,7 +16,7 @@ public final class AppBottomSheet {
 
     @NonNull
     public static BottomSheetDialog create(@NonNull Context context, @NonNull View contentView) {
-        BottomSheetDialog dialog = new BottomSheetDialog(context, R.style.Widget_App_BottomSheet);
+        BottomSheetDialog dialog = new BottomSheetDialog(context, R.style.Theme_App_BottomSheetDialog);
         dialog.setContentView(contentView);
         return dialog;
     }

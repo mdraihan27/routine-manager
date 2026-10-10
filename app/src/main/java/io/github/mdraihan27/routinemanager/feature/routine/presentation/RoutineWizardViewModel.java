@@ -32,6 +32,8 @@ public final class RoutineWizardViewModel extends BaseViewModel<RoutineWizardUiS
     private final GetCoursesUseCase getCoursesUseCase;
     private final ValidateClassTimeUseCase validateClassTimeUseCase;
     private final AppSchedulers schedulers;
+    
+    private final io.reactivex.rxjava3.disposables.SerialDisposable classesDisposable = new io.reactivex.rxjava3.disposables.SerialDisposable();
 
     @Inject
     public RoutineWizardViewModel(@NonNull GetRoutineConfigUseCase getRoutineConfigUseCase,
@@ -51,6 +53,9 @@ public final class RoutineWizardViewModel extends BaseViewModel<RoutineWizardUiS
         this.getCoursesUseCase = getCoursesUseCase;
         this.validateClassTimeUseCase = validateClassTimeUseCase;
         this.schedulers = schedulers;
+        
+        addDisposable(classesDisposable);
+        
         loadInitialData();
     }
 
@@ -115,7 +120,7 @@ public final class RoutineWizardViewModel extends BaseViewModel<RoutineWizardUiS
     }
 
     private void loadClassesForDay(DayOfWeek day) {
-        addDisposable(
+        classesDisposable.set(
                 getWeeklyClassesForDayUseCase.execute(day)
                         .subscribeOn(schedulers.io())
                         .observeOn(schedulers.main())

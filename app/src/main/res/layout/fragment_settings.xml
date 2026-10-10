@@ -20,66 +20,140 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
-            android:text="@string/setting_animation_intensity"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="Preferences"
             android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
 
-        <LinearLayout
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:orientation="horizontal">
-
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-                android:id="@+id/btnIntensityReduced"
-                android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="@dimen/spacing_tiny"
-                android:text="@string/setting_intensity_reduced" />
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_medium">
 
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-                android:id="@+id/btnIntensityBalanced"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="@dimen/spacing_tiny"
-                android:text="@string/setting_intensity_balanced" />
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput
+                    android:id="@+id/dropdownAnimationIntensityLayout"
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/setting_animation_intensity">
 
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-                android:id="@+id/btnIntensityExpressive"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/setting_intensity_expressive" />
-        </LinearLayout>
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownAnimationIntensity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput>
 
-        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-            android:id="@+id/btnManageCourses"
-            android:layout_width="match_parent"
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput
+                    android:id="@+id/dropdownRoutineLayoutLayout"
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="@string/setting_layout_routine">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownRoutineLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Show schedule in notification"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppSwitch
+                        android:id="@+id/switchPersistentNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+        <!-- Manage Data Section -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
-            android:text="@string/setting_manage_courses" />
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="Management"
+            android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
 
-        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-            android:id="@+id/btnEditRoutine"
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/setting_edit_routine" />
+            android:layout_height="wrap_content">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_medium">
 
-        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-            android:id="@+id/btnReplayOnboarding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/setting_replay_onboarding" />
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                    android:id="@+id/btnManageCourses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_manage_courses" />
 
-        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-            android:id="@+id/btnResetOnboarding"
-            android:layout_width="match_parent"
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                    android:id="@+id/btnEditRoutine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/setting_edit_routine" />
+            </LinearLayout>
+        </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+        <!-- Troubleshooting Section -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/setting_reset_onboarding" />
+            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="Troubleshooting"
+            android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_medium">
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                    android:id="@+id/btnReplayOnboarding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_replay_onboarding" />
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                    android:id="@+id/btnResetOnboarding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/setting_reset_onboarding" />
+            </LinearLayout>
+        </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
         <TextView
             android:id="@+id/tvAppInfo"

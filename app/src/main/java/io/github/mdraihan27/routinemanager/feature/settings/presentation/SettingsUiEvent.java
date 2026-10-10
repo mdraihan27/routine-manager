@@ -27,4 +27,28 @@ public abstract class SettingsUiEvent implements UiEvent {
 
     public static final class ResetOnboarding extends SettingsUiEvent {
     }
+
+    public static final class SetRoutineOverviewVertical extends SettingsUiEvent {
+        private final boolean vertical;
+
+        public SetRoutineOverviewVertical(boolean vertical) {
+            this.vertical = vertical;
+        }
+
+        public boolean isVertical() {
+            return vertical;
+        }
+    }
+
+    public static final class SetPersistentNotification extends SettingsUiEvent {
+        private final boolean enabled;
+
+        public SetPersistentNotification(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+    }
 }

@@ -14,7 +14,6 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RoutineManager">
 
@@ -40,6 +39,31 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <!-- Widgets -->
+        <receiver android:name=".feature.widget.DailyClassWidgetProvider" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_daily_class_info" />
+        </receiver>
+        
+        <service android:name=".feature.widget.DailyClassWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".feature.widget.RoutineWidgetProvider" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_routine_info" />
+        </receiver>
+
+        <service android:name=".feature.widget.RoutineWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

@@ -19,6 +19,15 @@ public abstract class HomeUiEvent implements UiEvent {
     }
 
     public static final class UndoCancel extends HomeUiEvent {
+        private final long classId;
+
+        public UndoCancel(long classId) {
+            this.classId = classId;
+        }
+
+        public long getClassId() {
+            return classId;
+        }
     }
 
     public static final class DismissOnboarding extends HomeUiEvent {

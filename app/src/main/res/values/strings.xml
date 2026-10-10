@@ -76,7 +76,7 @@
     <string name="onboarding_gesture_tip">Swipe left or right to browse classes. Swipe down to cancel. Swipe up to edit.</string>
 
     <string name="reschedule_option_occurrence">This occurrence only</string>
-    <string name="reschedule_option_permanent">All future occurrences (Permanent)</string>
+    <string name="reschedule_option_permanent">All future occurrences</string>
     <string name="reschedule_dialog_title">Edit Class Schedule</string>
     <string name="reschedule_dialog_desc">Choose whether to apply this change to today only or to the permanent weekly routine.</string>
 
@@ -84,6 +84,9 @@
     <string name="setting_intensity_reduced">Reduced</string>
     <string name="setting_intensity_balanced">Balanced</string>
     <string name="setting_intensity_expressive">Expressive</string>
+    <string name="setting_layout_routine">Routine Overview Layout</string>
+    <string name="setting_layout_vertical">Vertical</string>
+    <string name="setting_layout_horizontal">Horizontal</string>
     <string name="setting_replay_onboarding">Replay Feature Guides</string>
     <string name="setting_reset_onboarding">Reset Onboarding</string>
     <string name="setting_manage_courses">Manage Courses</string>

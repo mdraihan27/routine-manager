@@ -67,7 +67,9 @@ public final class ScheduleRepositoryImpl implements ScheduleRepository {
                 routineDao.getRoutineConfig(),
                 routineDao.getWeeklyClassesForDay(dayOfWeek.name()),
                 courseDao.getAllCourses(),
-                (configEntities, classEntities, courseEntities) -> {
+                occurrenceDao.observeOccurrencesForDate(dateStr),
+                occurrenceDao.observeExceptionsForDate(dateStr),
+                (configEntities, classEntities, courseEntities, occurrences, exceptions) -> {
                     RoutineConfig config = configEntities.isEmpty()
                             ? RoutineConfig.empty()
                             : RoutineMapper.toDomain(configEntities.get(0));
@@ -79,9 +81,6 @@ public final class ScheduleRepositoryImpl implements ScheduleRepository {
                         int bEnd = config.getBreakEndHour() * 60 + config.getBreakEndMinute();
                         isBreak = (nowMinutes >= bStart && nowMinutes < bEnd);
                     }
-
-                    List<ClassOccurrenceEntity> occurrences = occurrenceDao.getOccurrencesForDate(dateStr).blockingGet();
-                    List<ClassExceptionEntity> exceptions = occurrenceDao.getExceptionsForDate(dateStr).blockingGet();
 
                     Map<Long, String> occurrenceStatusMap = new HashMap<>();
                     for (ClassOccurrenceEntity occ : occurrences) {

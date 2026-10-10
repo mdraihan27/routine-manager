@@ -58,6 +58,16 @@ public final class BackgroundKeepAliveManagerImpl implements BackgroundKeepAlive
         );
     }
 
+    @Override
+    public void stopKeepAlive() {
+        Intent serviceIntent = new Intent(context, AppKeepAliveService.class);
+        try {
+            context.stopService(serviceIntent);
+        } catch (Exception ignored) {
+        }
+        WorkManager.getInstance(context).cancelUniqueWork(WORK_NAME);
+    }
+
     @SuppressLint("BatteryLife")
     @Override
     public void requestDisableBatteryOptimizations(@NonNull Activity activity) {

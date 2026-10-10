@@ -22,12 +22,14 @@ public class SettingsViewModel extends BaseViewModel<SettingsUiState, SettingsUi
     public SettingsViewModel(@NonNull MotionPreferences motionPreferences,
                              @NonNull PreferencesDataSource preferencesDataSource,
                              @NonNull AppSchedulers appSchedulers) {
-        super(new SettingsUiState(motionPreferences.getIntensity(), false, null));
+        super(new SettingsUiState(motionPreferences.getIntensity(), preferencesDataSource.isRoutineOverviewVertical(), preferencesDataSource.isPersistentNotificationEnabled(), false, null));
         this.motionPreferences = motionPreferences;
         this.preferencesDataSource = preferencesDataSource;
         this.appSchedulers = appSchedulers;
 
         observeIntensity();
+        observeRoutineOverviewVertical();
+        observePersistentNotificationEnabled();
     }
 
     private void observeIntensity() {
@@ -36,7 +38,31 @@ public class SettingsViewModel extends BaseViewModel<SettingsUiState, SettingsUi
                         .subscribeOn(appSchedulers.io())
                         .observeOn(appSchedulers.main())
                         .subscribe(
-                                intensity -> setState(new SettingsUiState(intensity, false, null)),
+                                intensity -> setState(getState().getValue().copyWithIntensity(intensity)),
+                                throwable -> {}
+                        )
+        );
+    }
+
+    private void observeRoutineOverviewVertical() {
+        addDisposable(
+                preferencesDataSource.observeRoutineOverviewVertical()
+                        .subscribeOn(appSchedulers.io())
+                        .observeOn(appSchedulers.main())
+                        .subscribe(
+                                vertical -> setState(getState().getValue().copyWithRoutineOverviewVertical(vertical)),
+                                throwable -> {}
+                        )
+        );
+    }
+
+    private void observePersistentNotificationEnabled() {
+        addDisposable(
+                preferencesDataSource.observePersistentNotificationEnabled()
+                        .subscribeOn(appSchedulers.io())
+                        .observeOn(appSchedulers.main())
+                        .subscribe(
+                                enabled -> setState(getState().getValue().copyWithPersistentNotificationEnabled(enabled)),
                                 throwable -> {}
                         )
         );
@@ -51,7 +77,29 @@ public class SettingsViewModel extends BaseViewModel<SettingsUiState, SettingsUi
                             .subscribeOn(appSchedulers.io())
                             .observeOn(appSchedulers.main())
                             .subscribe(
-                                    () -> setState(new SettingsUiState(intensity, false, null)),
+                                    () -> {},
+                                    throwable -> {}
+                            )
+            );
+        } else if (event instanceof SettingsUiEvent.SetRoutineOverviewVertical) {
+            boolean vertical = ((SettingsUiEvent.SetRoutineOverviewVertical) event).isVertical();
+            addDisposable(
+                    preferencesDataSource.setRoutineOverviewVertical(vertical)
+                            .subscribeOn(appSchedulers.io())
+                            .observeOn(appSchedulers.main())
+                            .subscribe(
+                                    () -> {},
+                                    throwable -> {}
+                            )
+            );
+        } else if (event instanceof SettingsUiEvent.SetPersistentNotification) {
+            boolean enabled = ((SettingsUiEvent.SetPersistentNotification) event).isEnabled();
+            addDisposable(
+                    preferencesDataSource.setPersistentNotificationEnabled(enabled)
+                            .subscribeOn(appSchedulers.io())
+                            .observeOn(appSchedulers.main())
+                            .subscribe(
+                                    () -> {},
                                     throwable -> {}
                             )
             );

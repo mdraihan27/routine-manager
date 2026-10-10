@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background">
+    android:background="@android:color/transparent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,100 +46,113 @@
                 android:textAppearance="@style/TextAppearance.App.Primary.Body" />
         </RadioGroup>
 
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:cardBackgroundColor="@color/surface_muted"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/btnRescheduleStartTab"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="@string/label_start_time"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+
+                <TextView
+                    android:id="@+id/btnRescheduleEndTab"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="@string/label_end_time"
+                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_medium"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-                android:id="@+id/btnRescheduleStartTab"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvRescheduleStartTime"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="@dimen/spacing_tiny"
-                android:text="@string/label_start_time" />
+                android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
 
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
-                android:id="@+id/btnRescheduleEndTab"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/label_end_time" />
+                android:text=" - "
+                android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+
+            <TextView
+                android:id="@+id/tvRescheduleEndTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvReschedulePreview"
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
+            android:layout_marginHorizontal="64dp"
+            app:cardBackgroundColor="@color/surface_muted"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
-                android:id="@+id/chipRescheduleHour"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_tiny">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_small"
-                    android:text="Hour"
-                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
-            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
+                android:orientation="horizontal"
+                android:padding="4dp">
 
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
-                android:id="@+id/chipRescheduleMinute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_medium">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btnSelectAm"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_small"
-                    android:text="Minute"
-                    android:textAppearance="@style/TextAppearance.App.Primary.Label" />
-            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
-
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
-                android:id="@+id/chipRescheduleAm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_tiny">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_small"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
                     android:text="@string/am"
                     android:textAppearance="@style/TextAppearance.App.Primary.Label" />
-            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
 
-            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip
-                android:id="@+id/chipReschedulePm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/btnSelectPm"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_small"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingVertical="8dp"
                     android:text="@string/pm"
                     android:textAppearance="@style/TextAppearance.App.Primary.Label" />
-            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppChip>
-        </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <io.github.mdraihan27.routinemanager.core.designsystem.components.AnalogClockView
             android:id="@+id/clockReschedule"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/analog_clock_size"
-            android:layout_marginTop="@dimen/spacing_small" />
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/spacing_medium" />
 
         <TextView
             android:id="@+id/tvRescheduleError"

@@ -312,7 +312,14 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         int margin = (int) getResources().getDimension(R.dimen.spacing_tiny);
 
         for (DayOfWeek day : WEEK_DAYS) {
+            if (state.getHolidays().contains(day)) {
+                continue;
+            }
+
             AppChip chip = new AppChip(requireContext());
+            chip.setCardBackgroundColor(android.graphics.Color.TRANSPARENT);
+            chip.setCardElevation(0f);
+            
             TextView tv = new TextView(requireContext());
             int pad = (int) getResources().getDimension(R.dimen.spacing_small);
             tv.setPadding(pad, pad, pad, pad);
@@ -321,11 +328,13 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
 
             boolean isSelected = day == state.getSelectedDay();
             if (isSelected) {
-                chip.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.button_background));
-                tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.on_button));
-            } else {
-                chip.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.surface_muted));
                 tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+                tv.setTypeface(null, android.graphics.Typeface.BOLD);
+                tv.setPaintFlags(tv.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+            } else {
+                tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_muted));
+                tv.setTypeface(null, android.graphics.Typeface.NORMAL);
+                tv.setPaintFlags(tv.getPaintFlags() & ~android.graphics.Paint.UNDERLINE_TEXT_FLAG);
             }
 
             chip.addView(tv);
@@ -339,8 +348,7 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
             chip.setOnClickListener(v -> viewModel.onEvent(new RoutineWizardUiEvent.SelectDay(day)));
         }
 
-        boolean isHoliday = state.getHolidays().contains(state.getSelectedDay());
-        stepScheduleBinding.tvHolidayNotice.setVisibility(isHoliday ? View.VISIBLE : View.GONE);
+        stepScheduleBinding.tvHolidayNotice.setVisibility(View.GONE);
         classAdapter.submitList(state.getDayClasses());
     }
 
@@ -365,7 +373,7 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         setupDialogCourses(dBinding, courses, selectedCourseId);
 
         dBinding.dialogClassClock.setTime(startH[0], startM[0]);
-        updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0]);
+        updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0], isPickingStart[0]);
 
         dBinding.dialogClassClock.setOnTimeSelectedListener(new AnalogClockView.OnTimeSelectedListener() {
             @Override
@@ -377,7 +385,7 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
                     endH[0] = h24;
                     endM[0] = m;
                 }
-                updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0]);
+                updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0], isPickingStart[0]);
             }
 
             @Override
@@ -391,28 +399,29 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         dBinding.btnTabStartTime.setOnClickListener(v -> {
             isPickingStart[0] = true;
             dBinding.dialogClassClock.setTime(startH[0], startM[0]);
+            dBinding.dialogClassClock.setMode(AnalogClockView.Mode.HOUR);
+            updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0], isPickingStart[0]);
         });
 
         dBinding.btnTabEndTime.setOnClickListener(v -> {
             isPickingStart[0] = false;
             dBinding.dialogClassClock.setTime(endH[0], endM[0]);
+            dBinding.dialogClassClock.setMode(AnalogClockView.Mode.HOUR);
+            updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0], isPickingStart[0]);
         });
 
-        dBinding.chipClockHour.setOnClickListener(v ->
-                dBinding.dialogClassClock.setMode(AnalogClockView.Mode.HOUR)
-        );
+        dBinding.tvClassStartTime.setOnClickListener(v -> dBinding.btnTabStartTime.performClick());
+        dBinding.tvClassEndTime.setOnClickListener(v -> dBinding.btnTabEndTime.performClick());
 
-        dBinding.chipClockMinute.setOnClickListener(v ->
-                dBinding.dialogClassClock.setMode(AnalogClockView.Mode.MINUTE)
-        );
+        dBinding.btnSelectAm.setOnClickListener(v -> {
+            dBinding.dialogClassClock.setIsAm(true);
+            updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0], isPickingStart[0]);
+        });
 
-        dBinding.chipClockAm.setOnClickListener(v ->
-                dBinding.dialogClassClock.setIsAm(true)
-        );
-
-        dBinding.chipClockPm.setOnClickListener(v ->
-                dBinding.dialogClassClock.setIsAm(false)
-        );
+        dBinding.btnSelectPm.setOnClickListener(v -> {
+            dBinding.dialogClassClock.setIsAm(false);
+            updateDialogTimePreview(dBinding, startH[0], startM[0], endH[0], endM[0], isPickingStart[0]);
+        });
 
         dBinding.btnCancelAddClass.setOnClickListener(v -> dialog.dismiss());
 
@@ -455,61 +464,120 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
     private void setupDialogCourses(DialogAddClassBinding dBinding,
                                     List<Course> courses,
                                     long[] selectedCourseId) {
-        dBinding.dialogCourseChipsContainer.removeAllViews();
-        int margin = (int) getResources().getDimension(R.dimen.spacing_tiny);
-
-        List<AppChip> chipViews = new ArrayList<>();
-        List<TextView> textViews = new ArrayList<>();
-
-        for (int i = 0; i < courses.size(); i++) {
-            Course c = courses.get(i);
-            AppChip chip = new AppChip(requireContext());
-            TextView tv = new TextView(requireContext());
-            int pad = (int) getResources().getDimension(R.dimen.spacing_small);
-            tv.setPadding(pad, pad, pad, pad);
-            tv.setText(c.getCode());
-            tv.setTextAppearance(R.style.TextAppearance_App_Primary_Label);
-
-            boolean isFirst = i == 0;
-            if (isFirst) {
-                chip.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.button_background));
-                tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.on_button));
-                dBinding.tvSelectedCourseName.setText(c.getName() + " (" + c.getTeacherName() + ")");
-            } else {
-                chip.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.surface_muted));
-                tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        android.widget.BaseAdapter adapter = new android.widget.BaseAdapter() {
+            @Override
+            public int getCount() {
+                return courses.size();
             }
 
-            chip.addView(tv);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            lp.rightMargin = margin;
-            dBinding.dialogCourseChipsContainer.addView(chip, lp);
+            @Override
+            public Object getItem(int position) {
+                return courses.get(position);
+            }
 
-            chipViews.add(chip);
-            textViews.add(tv);
+            @Override
+            public long getItemId(int position) {
+                return courses.get(position).getId();
+            }
 
-            final int idx = i;
-            chip.setOnClickListener(v -> {
-                selectedCourseId[0] = c.getId();
-                dBinding.tvSelectedCourseName.setText(c.getName() + " (" + c.getTeacherName() + ")");
-                for (int j = 0; j < chipViews.size(); j++) {
-                    if (j == idx) {
-                        chipViews.get(j).setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.button_background));
-                        textViews.get(j).setTextColor(ContextCompat.getColor(requireContext(), R.color.on_button));
-                    } else {
-                        chipViews.get(j).setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.surface_muted));
-                        textViews.get(j).setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
-                    }
+            @Override
+            public View getView(int position, View convertView, android.view.ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = new TextView(requireContext());
+                    int pad = (int) getResources().getDimension(R.dimen.spacing_small);
+                    ((TextView) convertView).setPadding(pad, 0, pad, 0);
+                    ((TextView) convertView).setTextAppearance(R.style.TextAppearance_App_Primary_Label);
                 }
-            });
+                TextView tv = (TextView) convertView;
+                Course c = courses.get(position);
+                tv.setText(c.getCode() + " - " + c.getName());
+                
+                try {
+                    int color = colorResolver.resolve(c.getColor());
+                    tv.setTextColor(color);
+                } catch (Exception e) {
+                    tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+                }
+                tv.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+                return tv;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, android.view.ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = getLayoutInflater().inflate(R.layout.item_course_dropdown, parent, false);
+                }
+                
+                androidx.cardview.widget.CardView card = convertView.findViewById(R.id.cardCourse);
+                TextView tv = convertView.findViewById(R.id.tvCourseName);
+                
+                Course c = courses.get(position);
+                tv.setText(c.getCode() + " - " + c.getName());
+                
+                try {
+                    int color = colorResolver.resolve(c.getColor());
+                    card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.surface_muted));
+                    tv.setTextColor(color);
+                } catch (Exception e) {
+                    card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.surface_muted));
+                    tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+                }
+                
+                return convertView;
+            }
+        };
+
+        dBinding.spinnerCourse.setAdapter(adapter);
+        dBinding.spinnerCourse.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                selectedCourseId[0] = courses.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
+        });
+        
+        if (courses.size() > 0) {
+            selectedCourseId[0] = courses.get(0).getId();
         }
     }
 
-    private void updateDialogTimePreview(DialogAddClassBinding dBinding, int sh, int sm, int eh, int em) {
-        dBinding.tvClassTimePreview.setText(DateTimeFormatter.formatTimeRange(sh, sm, eh, em));
+    private void updateDialogTimePreview(DialogAddClassBinding dBinding, int sh, int sm, int eh, int em, boolean isPickingStart) {
+        dBinding.tvClassStartTime.setText(DateTimeFormatter.formatTime12Hour(sh, sm));
+        dBinding.tvClassEndTime.setText(DateTimeFormatter.formatTime12Hour(eh, em));
+
+        if (isPickingStart) {
+            dBinding.btnTabStartTime.setBackgroundResource(R.drawable.bg_toggle_pill);
+            dBinding.btnTabStartTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            dBinding.btnTabEndTime.setBackground(null);
+            dBinding.btnTabEndTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+            
+            dBinding.tvClassStartTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+            dBinding.tvClassEndTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_muted));
+        } else {
+            dBinding.btnTabEndTime.setBackgroundResource(R.drawable.bg_toggle_pill);
+            dBinding.btnTabEndTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            dBinding.btnTabStartTime.setBackground(null);
+            dBinding.btnTabStartTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+            
+            dBinding.tvClassStartTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_muted));
+            dBinding.tvClassEndTime.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        }
+
+        if (dBinding.dialogClassClock.isAm()) {
+            dBinding.btnSelectAm.setBackgroundResource(R.drawable.bg_toggle_pill);
+            dBinding.btnSelectAm.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            dBinding.btnSelectPm.setBackground(null);
+            dBinding.btnSelectPm.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        } else {
+            dBinding.btnSelectPm.setBackgroundResource(R.drawable.bg_toggle_pill);
+            dBinding.btnSelectPm.setTextColor(ContextCompat.getColor(requireContext(), R.color.background));
+            dBinding.btnSelectAm.setBackground(null);
+            dBinding.btnSelectAm.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
+        }
+
         dBinding.tvClassTimeError.setVisibility(View.GONE);
     }
 
