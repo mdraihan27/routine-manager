@@ -201,6 +201,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:textColor="@android:color/black"
                                 android:textAppearance="@style/TextAppearance.App.Primary.Headline" />
 
                             <LinearLayout
@@ -241,6 +242,7 @@
                             android:layout_marginTop="@dimen/spacing_small"
                             android:maxLines="2"
                             android:ellipsize="end"
+                            android:textColor="@android:color/black"
                             android:textAppearance="@style/TextAppearance.App.Primary.Title" />
 
                         <!-- Teacher -->
@@ -251,6 +253,7 @@
                             android:layout_marginTop="@dimen/spacing_tiny"
                             android:maxLines="1"
                             android:ellipsize="end"
+                            android:textColor="@android:color/black"
                             android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
 
                         <Space
@@ -271,12 +274,14 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:textColor="@android:color/black"
                                 android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
 
                             <TextView
                                 android:id="@+id/tvClassPosition"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
                                 android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
                         </LinearLayout>
                     </LinearLayout>
@@ -291,22 +296,6 @@
                     android:gravity="center"
                     android:text="Swipe: ←/→ to change, ↓ to cancel, ↑ to reschedule"
                     android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
-
-                <!-- Weekly Overview -->
-                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
-                    android:id="@+id/cardWeeklyOverview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_large">
-                    
-                    <LinearLayout
-                        android:id="@+id/layoutWeeklyOverview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="@dimen/spacing_medium"
-                        android:baselineAligned="false" />
-                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
             </LinearLayout>
 
             <!-- ── Holiday card ── -->
@@ -382,11 +371,28 @@
                     android:padding="@dimen/spacing_large">
 
                     <TextView
+                        android:id="@+id/tvNoClassesMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_no_classes_today"
                         android:textAppearance="@style/TextAppearance.App.Primary.Title" />
                 </LinearLayout>
+            </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+            <!-- Weekly Overview -->
+            <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+                android:id="@+id/cardWeeklyOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large">
+                
+                <LinearLayout
+                    android:id="@+id/layoutWeeklyOverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_medium"
+                    android:baselineAligned="false" />
             </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
 

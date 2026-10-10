@@ -100,13 +100,13 @@ public final class CardGestureDetector {
                             if (Math.abs(finalDx) > thresholdX) {
                                 if (finalDx > 0) {
                                     if (listener.canSwipeRight()) {
-                                        animateSwipe(v, v.getWidth(), 0, listener::onSwipeRight, -v.getWidth() * 0.5f);
+                                        animateSwipe(v, v.getWidth(), 0, listener::onSwipeRight, -v.getWidth() * 0.5f, 0);
                                     } else {
                                         resetView(v);
                                     }
                                 } else {
                                     if (listener.canSwipeLeft()) {
-                                        animateSwipe(v, -v.getWidth(), 0, listener::onSwipeLeft, v.getWidth() * 0.5f);
+                                        animateSwipe(v, -v.getWidth(), 0, listener::onSwipeLeft, v.getWidth() * 0.5f, 0);
                                     } else {
                                         resetView(v);
                                     }
@@ -117,9 +117,9 @@ public final class CardGestureDetector {
                         } else {
                             if (Math.abs(finalDy) > thresholdY) {
                                 if (finalDy > 0) {
-                                    animateSwipe(v, 0, v.getHeight(), listener::onSwipeDown, -v.getHeight() * 0.5f);
+                                    animateSwipe(v, 0, v.getHeight(), listener::onSwipeDown, 0, v.getHeight() * 0.5f);
                                 } else {
-                                    animateSwipe(v, 0, -v.getHeight(), listener::onSwipeUp, v.getHeight() * 0.5f);
+                                    animateSwipe(v, 0, -v.getHeight(), listener::onSwipeUp, 0, -v.getHeight() * 0.5f);
                                 }
                             } else {
                                 resetView(v);
@@ -142,7 +142,7 @@ public final class CardGestureDetector {
                         .start();
             }
 
-            private void animateSwipe(View v, float targetTx, float targetTy, Runnable action, float resetTx) {
+            private void animateSwipe(View v, float targetTx, float targetTy, Runnable action, float resetTx, float resetTy) {
                 v.animate()
                         .translationX(targetTx)
                         .translationY(targetTy)
@@ -152,7 +152,7 @@ public final class CardGestureDetector {
                             action.run();
                             // Reset state invisibly for the next item
                             v.setTranslationX(resetTx);
-                            v.setTranslationY(0); // Only reset X for sliding back in effect, Y stays 0
+                            v.setTranslationY(resetTy);
                             v.setRotation(0);
                             v.animate()
                                     .translationX(0f)

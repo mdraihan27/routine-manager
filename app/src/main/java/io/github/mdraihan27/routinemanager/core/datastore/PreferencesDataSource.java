@@ -38,4 +38,29 @@ public interface PreferencesDataSource {
 
     @NonNull
     Observable<Boolean> observePersistentNotificationEnabled();
+
+    boolean isClassAlarmEnabled();
+
+    @NonNull
+    Completable setClassAlarmEnabled(boolean enabled);
+
+    @NonNull
+    Observable<Boolean> observeClassAlarmEnabled();
+
+    int getClassAlarmMinutesBefore();
+
+    @NonNull
+    Completable setClassAlarmMinutesBefore(int minutes);
+
+    @NonNull
+    Observable<Integer> observeClassAlarmMinutesBefore();
+
+    @NonNull
+    String getThemeMode();
+
+    @NonNull
+    Completable setThemeMode(@NonNull String mode);
+
+    @NonNull
+    Observable<String> observeThemeMode();
 }

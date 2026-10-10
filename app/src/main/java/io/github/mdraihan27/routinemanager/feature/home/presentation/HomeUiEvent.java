@@ -12,6 +12,18 @@ public abstract class HomeUiEvent implements UiEvent {
     public static final class NextClass extends HomeUiEvent {
     }
 
+    public static final class NavigateToClass extends HomeUiEvent {
+        private final long classId;
+
+        public NavigateToClass(long classId) {
+            this.classId = classId;
+        }
+
+        public long getClassId() {
+            return classId;
+        }
+    }
+
     public static final class PreviousClass extends HomeUiEvent {
     }
 

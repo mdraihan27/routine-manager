@@ -5,11 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -30,6 +33,9 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
 
     private SettingsViewModel viewModel;
 
+    private ActivityResultLauncher<String> exportLauncher;
+    private ActivityResultLauncher<String[]> importLauncher;
+
     @NonNull
     @Override
     protected FragmentSettingsBinding inflateBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
@@ -40,6 +46,18 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
+
+        exportLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("application/json"), uri -> {
+            if (uri != null) {
+                viewModel.onEvent(new SettingsUiEvent.ExportData(requireContext(), uri));
+            }
+        });
+
+        importLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
+            if (uri != null) {
+                viewModel.onEvent(new SettingsUiEvent.ImportData(requireContext(), uri));
+            }
+        });
 
         setupTopBar();
         setupClickListeners();
@@ -81,8 +99,29 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
             viewModel.onEvent(new SettingsUiEvent.SetRoutineOverviewVertical(position == 0));
         });
 
+        // Setup Theme Dropdown
+        String[] themes = {"Auto", "Light", "Dark"};
+        ArrayAdapter<String> themeAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, themes);
+        binding.dropdownTheme.setAdapter(themeAdapter);
+        binding.dropdownTheme.setOnItemClickListener((parent, view, position, id) -> {
+            viewModel.onEvent(new SettingsUiEvent.SetThemeMode(themes[position]));
+        });
+
         binding.switchPersistentNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
             viewModel.onEvent(new SettingsUiEvent.SetPersistentNotification(isChecked));
+        });
+
+        binding.switchClassAlarm.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            viewModel.onEvent(new SettingsUiEvent.SetClassAlarm(isChecked));
+        });
+
+        binding.inputAlarmMinutes.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                try {
+                    int minutes = Integer.parseInt(binding.inputAlarmMinutes.getText().toString());
+                    viewModel.onEvent(new SettingsUiEvent.SetClassAlarmMinutes(minutes));
+                } catch (NumberFormatException ignored) {}
+            }
         });
 
         binding.btnManageCourses.setOnClickListener(v ->
@@ -103,6 +142,17 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
                         .setNegativeButton(R.string.action_cancel, (dialog, which) ->
                                 dialog.dismiss())
                         .show());
+
+        binding.btnExportBackup.setOnClickListener(v -> 
+                exportLauncher.launch("RoutineManager_Backup.json"));
+
+        binding.btnImportBackup.setOnClickListener(v -> 
+                importLauncher.launch(new String[]{"application/json"}));
+
+        binding.tvGithubLink.setOnClickListener(v -> {
+            android.content.Intent browserIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("https://github.com/mdraihan27"));
+            startActivity(browserIntent);
+        });
     }
 
     private void renderState(@NonNull SettingsUiState state) {
@@ -124,8 +174,26 @@ public class SettingsFragment extends BaseFragment<FragmentSettingsBinding> {
             binding.dropdownRoutineLayout.setText(layoutText, false);
         }
 
+        String themeText = state.getThemeMode();
+        if (!binding.dropdownTheme.getText().toString().equals(themeText)) {
+            binding.dropdownTheme.setText(themeText, false);
+        }
+
         if (binding.switchPersistentNotification.isChecked() != state.isPersistentNotificationEnabled()) {
             binding.switchPersistentNotification.setChecked(state.isPersistentNotificationEnabled());
+        }
+
+        if (binding.switchClassAlarm.isChecked() != state.isClassAlarmEnabled()) {
+            binding.switchClassAlarm.setChecked(state.isClassAlarmEnabled());
+        }
+
+        if (!binding.inputAlarmMinutes.hasFocus()) {
+            binding.inputAlarmMinutes.setText(String.valueOf(state.getClassAlarmMinutes()));
+        }
+
+        if (state.getMessage() != null) {
+            Toast.makeText(requireContext(), state.getMessage(), Toast.LENGTH_SHORT).show();
+            viewModel.onEvent(new SettingsUiEvent.ClearMessage());
         }
     }
 }

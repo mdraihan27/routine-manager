@@ -77,6 +77,8 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
             loadScheduleData();
         } else if (event instanceof HomeUiEvent.NextClass) {
             navigateNext();
+        } else if (event instanceof HomeUiEvent.NavigateToClass) {
+            navigateToClass(((HomeUiEvent.NavigateToClass) event).getClassId());
         } else if (event instanceof HomeUiEvent.PreviousClass) {
             navigatePrevious();
         } else if (event instanceof HomeUiEvent.CancelCurrentClass) {
@@ -169,6 +171,18 @@ public class HomeViewModel extends BaseViewModel<HomeUiState, HomeUiEvent> {
         List<DailyClassItem> classes = state.getClasses();
         if (state.getCurrentIndex() < classes.size() - 1) {
             setState(state.copyWithIndex(state.getCurrentIndex() + 1));
+        }
+    }
+
+    private void navigateToClass(long classId) {
+        HomeUiState state = getState().getValue();
+        if (state == null) return;
+        List<DailyClassItem> classes = state.getClasses();
+        for (int i = 0; i < classes.size(); i++) {
+            if (classes.get(i).getWeeklyClassId() == classId) {
+                setState(state.copyWithIndex(i));
+                break;
+            }
         }
     }
 

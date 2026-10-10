@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="@dimen/spacing_medium"
-        android:paddingTop="@dimen/spacing_medium"
+        android:paddingTop="@dimen/spacing_huge"
         android:paddingBottom="@dimen/spacing_medium">
 
         <TextView

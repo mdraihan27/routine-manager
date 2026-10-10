@@ -19,6 +19,7 @@ import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.Delete
 import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.GetRoutineConfigUseCase;
 import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.GetWeeklyClassesForDayUseCase;
 import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.SaveRoutineConfigUseCase;
+import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.UpdateWeeklyClassUseCase;
 import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.ValidateClassTimeUseCase;
 
 @HiltViewModel
@@ -28,6 +29,7 @@ public final class RoutineWizardViewModel extends BaseViewModel<RoutineWizardUiS
     private final SaveRoutineConfigUseCase saveRoutineConfigUseCase;
     private final GetWeeklyClassesForDayUseCase getWeeklyClassesForDayUseCase;
     private final AddWeeklyClassUseCase addWeeklyClassUseCase;
+    private final UpdateWeeklyClassUseCase updateWeeklyClassUseCase;
     private final DeleteWeeklyClassUseCase deleteWeeklyClassUseCase;
     private final GetCoursesUseCase getCoursesUseCase;
     private final ValidateClassTimeUseCase validateClassTimeUseCase;
@@ -40,6 +42,7 @@ public final class RoutineWizardViewModel extends BaseViewModel<RoutineWizardUiS
                                   @NonNull SaveRoutineConfigUseCase saveRoutineConfigUseCase,
                                   @NonNull GetWeeklyClassesForDayUseCase getWeeklyClassesForDayUseCase,
                                   @NonNull AddWeeklyClassUseCase addWeeklyClassUseCase,
+                                  @NonNull UpdateWeeklyClassUseCase updateWeeklyClassUseCase,
                                   @NonNull DeleteWeeklyClassUseCase deleteWeeklyClassUseCase,
                                   @NonNull GetCoursesUseCase getCoursesUseCase,
                                   @NonNull ValidateClassTimeUseCase validateClassTimeUseCase,
@@ -49,6 +52,7 @@ public final class RoutineWizardViewModel extends BaseViewModel<RoutineWizardUiS
         this.saveRoutineConfigUseCase = saveRoutineConfigUseCase;
         this.getWeeklyClassesForDayUseCase = getWeeklyClassesForDayUseCase;
         this.addWeeklyClassUseCase = addWeeklyClassUseCase;
+        this.updateWeeklyClassUseCase = updateWeeklyClassUseCase;
         this.deleteWeeklyClassUseCase = deleteWeeklyClassUseCase;
         this.getCoursesUseCase = getCoursesUseCase;
         this.validateClassTimeUseCase = validateClassTimeUseCase;
@@ -243,7 +247,19 @@ public final class RoutineWizardViewModel extends BaseViewModel<RoutineWizardUiS
                                     throwable -> {
                                     }
                             )
-        );
+            );
+        } else if (event instanceof RoutineWizardUiEvent.UpdateClass) {
+            WeeklyClass wc = ((RoutineWizardUiEvent.UpdateClass) event).getWeeklyClass();
+            addDisposable(
+                    updateWeeklyClassUseCase.execute(wc)
+                            .subscribeOn(schedulers.io())
+                            .observeOn(schedulers.main())
+                            .subscribe(
+                                    () -> loadClassesForDay(getCurrentState().getSelectedDay()),
+                                    throwable -> {
+                                    }
+                            )
+            );
         } else if (event instanceof RoutineWizardUiEvent.DeleteClass) {
             long classId = ((RoutineWizardUiEvent.DeleteClass) event).getClassId();
             addDisposable(

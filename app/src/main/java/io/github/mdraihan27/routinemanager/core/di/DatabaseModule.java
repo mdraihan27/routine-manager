@@ -16,6 +16,7 @@ import io.github.mdraihan27.routinemanager.feature.course.data.local.CourseDao;
 import io.github.mdraihan27.routinemanager.feature.course.data.local.TeacherDao;
 import io.github.mdraihan27.routinemanager.feature.routine.data.local.RoutineDao;
 import io.github.mdraihan27.routinemanager.feature.schedule.data.local.OccurrenceDao;
+import io.github.mdraihan27.routinemanager.feature.settings.data.local.BackupDao;
 
 @Module
 @InstallIn(SingletonComponent.class)
@@ -48,5 +49,10 @@ public final class DatabaseModule {
     @Provides
     public static OccurrenceDao provideOccurrenceDao(AppDatabase database) {
         return database.occurrenceDao();
+    }
+
+    @Provides
+    public static BackupDao provideBackupDao(AppDatabase database) {
+        return database.backupDao();
     }
 }

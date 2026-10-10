@@ -2,6 +2,7 @@ package io.github.mdraihan27.routinemanager.feature.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.github.mdraihan27.routinemanager.R;
+import io.github.mdraihan27.routinemanager.feature.schedule.domain.model.ClassStatus;
 import io.github.mdraihan27.routinemanager.feature.schedule.domain.model.DailyClassItem;
 import io.github.mdraihan27.routinemanager.feature.schedule.domain.model.DailySchedule;
 import io.github.mdraihan27.routinemanager.feature.schedule.domain.usecase.GetTodayScheduleUseCase;
@@ -40,9 +42,7 @@ class DailyClassRemoteViewsFactory implements RemoteViewsService.RemoteViewsFact
     }
 
     @Override
-    public void onCreate() {
-        // Run initial data load in onDataSetChanged
-    }
+    public void onCreate() {}
 
     @Override
     public void onDataSetChanged() {
@@ -77,8 +77,8 @@ class DailyClassRemoteViewsFactory implements RemoteViewsService.RemoteViewsFact
         views.setTextViewText(R.id.tvClassCourseName, item.getCourseName());
         views.setTextViewText(R.id.tvClassTeacherName, item.getTeacherName() != null ? item.getTeacherName() : "");
         
-        String status = item.getStatus() != null ? item.getStatus().name() : "";
-        views.setTextViewText(R.id.tvClassStatusLabel, status);
+        boolean isCancelled = item.getStatus() == ClassStatus.CANCELLED;
+        views.setTextViewText(R.id.tvClassStatusLabel, item.getStatus() != null ? item.getStatus().name() : "");
 
         String time = io.github.mdraihan27.routinemanager.core.util.DateTimeFormatter.formatTime12Hour(item.getStartHour(), item.getStartMinute()) + " - " + io.github.mdraihan27.routinemanager.core.util.DateTimeFormatter.formatTime12Hour(item.getEndHour(), item.getEndMinute());
         views.setTextViewText(R.id.tvClassTime, time);
@@ -86,30 +86,44 @@ class DailyClassRemoteViewsFactory implements RemoteViewsService.RemoteViewsFact
         String positionStr = (position + 1) + " of " + classItems.size();
         views.setTextViewText(R.id.tvClassPosition, positionStr);
 
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtra("EXTRA_CLASS_ID", item.getWeeklyClassId());
-        views.setOnClickFillInIntent(R.id.widget_daily_class_item_root, fillInIntent);
+        if (isCancelled) {
+            views.setViewVisibility(R.id.layoutActionButtons, View.GONE);
+            views.setViewVisibility(R.id.btnWidgetUndo, View.VISIBLE);
+        } else {
+            views.setViewVisibility(R.id.layoutActionButtons, View.VISIBLE);
+            views.setViewVisibility(R.id.btnWidgetUndo, View.GONE);
+        }
+
+        // Cancel Intent
+        Intent cancelIntent = new Intent();
+        cancelIntent.putExtra("EXTRA_CLASS_ID", item.getWeeklyClassId());
+        cancelIntent.putExtra("EXTRA_ACTION_TYPE", "CANCEL");
+        views.setOnClickFillInIntent(R.id.btnWidgetCancel, cancelIntent);
+
+        // Undo Intent
+        Intent undoIntent = new Intent();
+        undoIntent.putExtra("EXTRA_CLASS_ID", item.getWeeklyClassId());
+        undoIntent.putExtra("EXTRA_ACTION_TYPE", "UNDO");
+        views.setOnClickFillInIntent(R.id.btnWidgetUndo, undoIntent);
+
+        // Reschedule Intent
+        Intent rescheduleIntent = new Intent();
+        rescheduleIntent.putExtra("EXTRA_CLASS_ID", item.getWeeklyClassId());
+        rescheduleIntent.putExtra("EXTRA_ACTION_TYPE", "RESCHEDULE");
+        views.setOnClickFillInIntent(R.id.btnWidgetReschedule, rescheduleIntent);
 
         return views;
     }
 
     @Override
-    public RemoteViews getLoadingView() {
-        return null;
-    }
+    public RemoteViews getLoadingView() { return null; }
 
     @Override
-    public int getViewTypeCount() {
-        return 1;
-    }
+    public int getViewTypeCount() { return 1; }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    public long getItemId(int position) { return position; }
 
     @Override
-    public boolean hasStableIds() {
-        return true;
-    }
+    public boolean hasStableIds() { return true; }
 }

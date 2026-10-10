@@ -41,6 +41,7 @@ import io.github.mdraihan27.routinemanager.databinding.LayoutWizardStepScheduleB
 import io.github.mdraihan27.routinemanager.feature.course.domain.model.Course;
 import io.github.mdraihan27.routinemanager.feature.course.presentation.CourseColorResolver;
 import io.github.mdraihan27.routinemanager.feature.routine.domain.model.WeeklyClass;
+import io.github.mdraihan27.routinemanager.feature.routine.domain.model.WeeklyClassWithCourse;
 import io.github.mdraihan27.routinemanager.feature.routine.domain.usecase.ValidateClassTimeUseCase;
 
 @AndroidEntryPoint
@@ -113,10 +114,6 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
                 updateHolidaysView(state);
                 break;
             case 1:
-                getBinding().wizardStepContainer.addView(stepBreakBinding.getRoot());
-                updateBreakView(state);
-                break;
-            case 2:
             default:
                 getBinding().wizardStepContainer.addView(stepScheduleBinding.getRoot());
                 updateScheduleView(state);
@@ -148,8 +145,10 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
             boolean isHoliday = state.getHolidays().contains(day);
             if (isHoliday) {
                 card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.surface_subtle));
+                tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.background)); // Inverse text for contrast
             } else {
                 card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.surface_card));
+                tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_on_surface));
             }
 
             layout.addView(tv);
@@ -294,13 +293,14 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
 
     private void setupStepSchedule() {
         classAdapter = new WizardClassAdapter(colorResolver, item ->
-                viewModel.onEvent(new RoutineWizardUiEvent.DeleteClass(item.getWeeklyClass().getId()))
+                viewModel.onEvent(new RoutineWizardUiEvent.DeleteClass(item.getWeeklyClass().getId())),
+                item -> showAddClassDialog(item)
         );
 
         stepScheduleBinding.rvDayClasses.setLayoutManager(new LinearLayoutManager(requireContext()));
         stepScheduleBinding.rvDayClasses.setAdapter(classAdapter);
 
-        stepScheduleBinding.btnAddClassToDay.setOnClickListener(v -> showAddClassDialog());
+        stepScheduleBinding.btnAddClassToDay.setOnClickListener(v -> showAddClassDialog(null));
 
         stepScheduleBinding.btnDoneWizard.setOnClickListener(v ->
                 viewModel.onEvent(new RoutineWizardUiEvent.FinishWizard())
@@ -352,7 +352,7 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         classAdapter.submitList(state.getDayClasses());
     }
 
-    private void showAddClassDialog() {
+    private void showAddClassDialog(@Nullable WeeklyClassWithCourse existingItem) {
         RoutineWizardUiState state = viewModel.getState().getValue();
         if (state == null || state.getAllCourses().isEmpty()) {
             Toast.makeText(requireContext(), R.string.onboarding_course_first, Toast.LENGTH_SHORT).show();
@@ -369,6 +369,15 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         final int[] endH = {10};
         final int[] endM = {0};
         final boolean[] isPickingStart = {true};
+
+        if (existingItem != null) {
+            selectedCourseId[0] = existingItem.getWeeklyClass().getCourseId();
+            startH[0] = existingItem.getWeeklyClass().getStartHour();
+            startM[0] = existingItem.getWeeklyClass().getStartMinute();
+            endH[0] = existingItem.getWeeklyClass().getEndHour();
+            endM[0] = existingItem.getWeeklyClass().getEndMinute();
+            dBinding.btnConfirmAddClass.setText(R.string.action_save);
+        }
 
         setupDialogCourses(dBinding, courses, selectedCourseId);
 
@@ -426,8 +435,9 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         dBinding.btnCancelAddClass.setOnClickListener(v -> dialog.dismiss());
 
         dBinding.btnConfirmAddClass.setOnClickListener(v -> {
+            long excludeId = existingItem != null ? existingItem.getWeeklyClass().getId() : -1L;
             ValidateClassTimeUseCase.Result result = viewModel.validateClass(
-                    startH[0], startM[0], endH[0], endM[0], -1L
+                    startH[0], startM[0], endH[0], endM[0], excludeId
             );
 
             if (result == ValidateClassTimeUseCase.Result.INVALID_END_BEFORE_START) {
@@ -445,7 +455,7 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
             }
 
             WeeklyClass wc = new WeeklyClass(
-                    0L,
+                    existingItem != null ? existingItem.getWeeklyClass().getId() : 0L,
                     selectedCourseId[0],
                     state.getSelectedDay(),
                     startH[0],
@@ -454,7 +464,11 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
                     endM[0]
             );
 
-            viewModel.onEvent(new RoutineWizardUiEvent.AddClass(wc));
+            if (existingItem != null) {
+                viewModel.onEvent(new RoutineWizardUiEvent.UpdateClass(wc));
+            } else {
+                viewModel.onEvent(new RoutineWizardUiEvent.AddClass(wc));
+            }
             dialog.dismiss();
         });
 
@@ -540,7 +554,15 @@ public class RoutineWizardFragment extends BaseFragment<FragmentRoutineWizardBin
         });
         
         if (courses.size() > 0) {
-            selectedCourseId[0] = courses.get(0).getId();
+            // Find selected course index if editing
+            int index = 0;
+            for (int i = 0; i < courses.size(); i++) {
+                if (courses.get(i).getId() == selectedCourseId[0]) {
+                    index = i;
+                    break;
+                }
+            }
+            dBinding.spinnerCourse.setSelection(index);
         }
     }
 

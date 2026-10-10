@@ -65,6 +65,22 @@
                         android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
                 </io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput>
 
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput
+                    android:id="@+id/dropdownThemeLayout"
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="Theme">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,6 +100,43 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Alarm before first class"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+
+                    <io.github.mdraihan27.routinemanager.core.designsystem.components.AppSwitch
+                        android:id="@+id/switchClassAlarm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput
+                    android:id="@+id/inputAlarmMinutesLayout"
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="Minutes before alarm">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputAlarmMinutes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.App.Secondary.Body" />
+                </io.github.mdraihan27.routinemanager.core.designsystem.components.AppTextInput>
+
             </LinearLayout>
         </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
@@ -118,6 +171,47 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
                     android:text="@string/setting_edit_routine" />
+            </LinearLayout>
+        </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
+
+        <!-- Data Backup Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginBottom="@dimen/spacing_small"
+            android:text="Data Backup"
+            android:textAppearance="@style/TextAppearance.App.Primary.Subtitle" />
+
+        <io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_medium">
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                    android:id="@+id/btnExportBackup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Export Data" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="Export everything to a JSON file on your device. Importing will merge data without overwriting existing courses."
+                    android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
+
+                <io.github.mdraihan27.routinemanager.core.designsystem.components.AppButton
+                    android:id="@+id/btnImportBackup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="Import Data" />
             </LinearLayout>
         </io.github.mdraihan27.routinemanager.core.designsystem.components.AppCard>
 
@@ -162,6 +256,16 @@
             android:layout_marginTop="@dimen/spacing_large"
             android:gravity="center"
             android:text="@string/setting_app_version"
+            android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
+
+        <TextView
+            android:id="@+id/tvGithubLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:gravity="center"
+            android:text="GitHub: mdraihan27"
+            android:textColor="@color/text_on_surface"
             android:textAppearance="@style/TextAppearance.App.Secondary.Caption" />
     </LinearLayout>
 </ScrollView>

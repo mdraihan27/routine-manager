@@ -58,6 +58,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 if (state != null && state.getClasses() != null) {
                     for (DailyClassItem item : state.getClasses()) {
                         if (item.getWeeklyClassId() == classId) {
+                            viewModel.onEvent(new HomeUiEvent.NavigateToClass(classId));
                             showRescheduleDialog(item);
                             break;
                         }
@@ -185,12 +186,29 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
     private void renderState(@NonNull HomeUiState state) {
         FragmentHomeBinding binding = getBinding();
+        
+        Intent intent = requireActivity().getIntent();
+        if (intent != null && "ACTION_RESCHEDULE_FROM_NOTIF".equals(intent.getAction())) {
+            long classId = intent.getLongExtra("EXTRA_CLASS_ID", -1);
+            if (classId != -1 && state.getClasses() != null) {
+                for (DailyClassItem item : state.getClasses()) {
+                    if (item.getWeeklyClassId() == classId) {
+                        viewModel.onEvent(new HomeUiEvent.NavigateToClass(classId));
+                        showRescheduleDialog(item);
+                        intent.setAction(null);
+                        break;
+                    }
+                }
+            }
+        }
 
         binding.progressHome.setVisibility(state.isLoading() ? View.VISIBLE : View.GONE);
         binding.cardOnboarding.setVisibility(state.isShowOnboarding() ? View.VISIBLE : View.GONE);
         binding.cardGestureTip.setVisibility(state.isShowGestureGuide() ? View.VISIBLE : View.GONE);
 
-        if (state.hasClasses()) {
+        boolean allClassesOver = state.hasClasses() && state.getCurrentIndex() == -1;
+
+        if (state.hasClasses() && !allClassesOver) {
             binding.layoutClassSection.setVisibility(View.VISIBLE);
             binding.cardHoliday.setVisibility(View.GONE);
             binding.cardBreak.setVisibility(View.GONE);
@@ -201,6 +219,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 bindCurrentClass(binding, current, state);
             }
             renderWeeklyOverview(binding, state);
+            binding.cardWeeklyOverview.setVisibility(View.VISIBLE);
         } else {
             binding.layoutClassSection.setVisibility(View.GONE);
             if (state.isHoliday()) {
@@ -215,10 +234,24 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 binding.cardHoliday.setVisibility(View.GONE);
                 binding.cardBreak.setVisibility(View.GONE);
                 binding.cardNoClasses.setVisibility(View.VISIBLE);
+                
+                if (allClassesOver) {
+                    binding.tvNoClassesMessage.setText("No more classes today");
+                } else {
+                    binding.tvNoClassesMessage.setText(R.string.label_no_classes_today);
+                }
             } else {
                 binding.cardHoliday.setVisibility(View.GONE);
                 binding.cardBreak.setVisibility(View.GONE);
                 binding.cardNoClasses.setVisibility(View.GONE);
+            }
+            
+            // Still render the overview if we have classes (even if they are all over)
+            if (state.hasClasses()) {
+                renderWeeklyOverview(binding, state);
+                binding.cardWeeklyOverview.setVisibility(View.VISIBLE);
+            } else {
+                binding.cardWeeklyOverview.setVisibility(View.GONE);
             }
         }
     }

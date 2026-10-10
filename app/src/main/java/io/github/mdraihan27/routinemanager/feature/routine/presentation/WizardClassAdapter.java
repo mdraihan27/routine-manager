@@ -23,14 +23,21 @@ public class WizardClassAdapter extends ListAdapter<WeeklyClassWithCourse, Wizar
         void onDeleteClick(@NonNull WeeklyClassWithCourse item);
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(@NonNull WeeklyClassWithCourse item);
+    }
+
     private final CourseColorResolver colorResolver;
     private final OnDeleteClickListener deleteClickListener;
+    private final OnItemClickListener itemClickListener;
 
     public WizardClassAdapter(@NonNull CourseColorResolver colorResolver,
-                              @NonNull OnDeleteClickListener deleteClickListener) {
+                              @NonNull OnDeleteClickListener deleteClickListener,
+                              @NonNull OnItemClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.colorResolver = colorResolver;
         this.deleteClickListener = deleteClickListener;
+        this.itemClickListener = itemClickListener;
     }
 
     private static final DiffUtil.ItemCallback<WeeklyClassWithCourse> DIFF_CALLBACK = new DiffUtil.ItemCallback<>() {
@@ -77,8 +84,9 @@ public class WizardClassAdapter extends ListAdapter<WeeklyClassWithCourse, Wizar
 
             int color = colorResolver.resolve(course.getColor());
             binding.getRoot().setCardBackgroundColor(color);
-            binding.tvWizardClassCode.setTextColor(itemView.getResources().getColor(R.color.text_on_surface));
+            binding.tvWizardClassCode.setTextColor(itemView.getResources().getColor(android.R.color.black));
 
+            binding.getRoot().setOnClickListener(v -> itemClickListener.onItemClick(item));
             binding.btnDeleteWizardClass.setOnClickListener(v -> deleteClickListener.onDeleteClick(item));
         }
     }

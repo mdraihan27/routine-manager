@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.RoutineManager" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Theme.RoutineManager" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground">@color/background</item>
         <item name="colorSurface">@color/background</item>
         <item name="colorOnSurface">@color/text_on_surface</item>
@@ -20,5 +20,12 @@
         <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
         <item name="materialAlertDialogTheme">@style/Widget.App.Dialog</item>
         <item name="bottomSheetDialogTheme">@style/Widget.App.BottomSheet</item>
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_text</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.RoutineManager</item>
     </style>
 </resources>

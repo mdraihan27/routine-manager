@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -59,7 +60,22 @@ public class MainActivity extends AppCompatActivity {
                 }, throwable -> {})
         );
 
-        handleIntent(getIntent());
+        disposables.add(
+            preferencesDataSource.observeThemeMode()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mode -> {
+                    int nightMode = androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+                    if ("Dark".equals(mode)) {
+                        nightMode = androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+                    } else if ("Light".equals(mode)) {
+                        nightMode = androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+                    }
+                    if (androidx.appcompat.app.AppCompatDelegate.getDefaultNightMode() != nightMode) {
+                        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(nightMode);
+                    }
+                }, throwable -> {})
+        );
+
     }
 
     @Override

@@ -13,6 +13,7 @@ import io.github.mdraihan27.routinemanager.feature.routine.data.local.WeeklyClas
 import io.github.mdraihan27.routinemanager.feature.schedule.data.local.ClassExceptionEntity;
 import io.github.mdraihan27.routinemanager.feature.schedule.data.local.ClassOccurrenceEntity;
 import io.github.mdraihan27.routinemanager.feature.schedule.data.local.OccurrenceDao;
+import io.github.mdraihan27.routinemanager.feature.settings.data.local.BackupDao;
 
 @Database(
         entities = {
@@ -35,4 +36,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RoutineDao routineDao();
 
     public abstract OccurrenceDao occurrenceDao();
+
+    public abstract BackupDao backupDao();
 }

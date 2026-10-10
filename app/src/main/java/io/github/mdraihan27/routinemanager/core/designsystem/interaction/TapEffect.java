@@ -33,6 +33,9 @@ public final class TapEffect {
         final View.OnTouchListener originalListener = null;
 
         view.setOnTouchListener((v, event) -> {
+            if (!v.isClickable()) {
+                return false;
+            }
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     scaleXAnimation.getSpring().setDampingRatio(currentDampingRatio);

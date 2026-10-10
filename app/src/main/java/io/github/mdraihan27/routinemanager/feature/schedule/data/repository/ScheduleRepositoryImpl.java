@@ -154,7 +154,7 @@ public final class ScheduleRepositoryImpl implements ScheduleRepository {
 
                     classItems.sort(Comparator.comparingInt(DailyClassItem::getStartTotalMinutes));
 
-                    int targetIndex = 0;
+                    int targetIndex = -1;
                     for (int i = 0; i < classItems.size(); i++) {
                         DailyClassItem item = classItems.get(i);
                         if (item.getStatus() == ClassStatus.IN_PROGRESS || item.getStatus() == ClassStatus.UPCOMING) {

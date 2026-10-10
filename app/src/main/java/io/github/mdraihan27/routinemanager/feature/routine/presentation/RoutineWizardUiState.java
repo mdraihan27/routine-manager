@@ -61,7 +61,7 @@ public final class RoutineWizardUiState implements UiState {
         return new RoutineWizardUiState(
                 0,
                 defaultHolidays,
-                true,
+                false,
                 13,
                 0,
                 14,

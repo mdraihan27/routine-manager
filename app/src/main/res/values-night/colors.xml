@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode overrides -->
+    <color name="background">#181818</color>
+    <color name="on_button">#181818</color>
+    <color name="button_background">#FFFFFF</color>
+    <color name="text_on_surface">#FFFFFF</color>
+    <color name="shadow">#66000000</color>
+    <color name="surface_card">#242424</color>
+    <color name="surface_muted">#333333</color>
+    <color name="text_muted">#A0A0A0</color>
+    <color name="surface_subtle">#E0E0E0</color>
+</resources>

@@ -100,6 +100,19 @@ public abstract class RoutineWizardUiEvent implements UiEvent {
         }
     }
 
+    public static final class UpdateClass extends RoutineWizardUiEvent {
+        private final WeeklyClass weeklyClass;
+
+        public UpdateClass(@NonNull WeeklyClass weeklyClass) {
+            this.weeklyClass = weeklyClass;
+        }
+
+        @NonNull
+        public WeeklyClass getWeeklyClass() {
+            return weeklyClass;
+        }
+    }
+
     public static final class DeleteClass extends RoutineWizardUiEvent {
         private final long classId;
 

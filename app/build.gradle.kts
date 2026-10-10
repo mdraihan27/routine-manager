@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.core.splashscreen)
 
     implementation(libs.hilt.android)
     annotationProcessor(libs.hilt.compiler)
@@ -67,6 +68,8 @@ dependencies {
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.common.java8)
+
+    implementation(libs.gson)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)

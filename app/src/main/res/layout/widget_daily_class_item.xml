@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_widget_card"
+    android:background="@android:color/transparent"
     android:padding="24dp">
 
+    <!-- Top Row: Course Code + Status -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/text_on_surface"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -28,10 +29,10 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
-            android:textColor="@color/text_on_surface"
+            android:textColor="@android:color/white"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:background="#22000000" />
+            android:background="#22FFFFFF" />
     </LinearLayout>
 
     <TextView
@@ -41,7 +42,7 @@
         android:layout_marginTop="8dp"
         android:maxLines="2"
         android:ellipsize="end"
-        android:textColor="@color/text_on_surface"
+        android:textColor="@android:color/white"
         android:textSize="18sp" />
 
     <TextView
@@ -51,7 +52,7 @@
         android:layout_marginTop="4dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textColor="@color/text_muted"
+        android:textColor="#DDDDDD"
         android:textSize="14sp" />
 
     <FrameLayout
@@ -59,6 +60,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Time and Position -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,15 +73,58 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/text_on_surface"
+            android:textColor="@android:color/white"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tvClassPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_muted"
+            android:textColor="#DDDDDD"
             android:textSize="12sp" />
     </LinearLayout>
 
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:id="@+id/layoutActionButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/btnWidgetCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/btn_widget_selector"
+            android:textColor="@android:color/white"
+            android:text="Cancel"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btnWidgetReschedule"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/btn_widget_selector"
+            android:textColor="@android:color/white"
+            android:text="Reschedule"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnWidgetUndo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/btn_widget_selector"
+        android:textColor="@android:color/white"
+        android:text="Undo"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
 </LinearLayout>
+

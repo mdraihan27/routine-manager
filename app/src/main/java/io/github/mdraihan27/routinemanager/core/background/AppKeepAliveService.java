@@ -46,6 +46,7 @@ public class AppKeepAliveService extends Service {
     @Inject CancelClassOccurrenceUseCase cancelClassOccurrenceUseCase;
     @Inject AppSchedulers appSchedulers;
     @Inject AppClock appClock;
+    @Inject io.github.mdraihan27.routinemanager.feature.schedule.background.ClassAlarmManager classAlarmManager;
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private DailySchedule currentSchedule = null;
@@ -66,6 +67,7 @@ public class AppKeepAliveService extends Service {
                         .subscribe(schedule -> {
                             currentSchedule = schedule;
                             updateNotification();
+                            classAlarmManager.scheduleAlarms(schedule);
                         }, throwable -> {})
         );
     }
@@ -138,6 +140,7 @@ public class AppKeepAliveService extends Service {
                     NotificationManager.IMPORTANCE_LOW
             );
             channel.setDescription(getString(R.string.notification_keep_alive_desc));
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             if (manager != null) {
                 manager.createNotificationChannel(channel);
@@ -151,64 +154,89 @@ public class AppKeepAliveService extends Service {
         if (currentSchedule != null && !currentSchedule.getClasses().isEmpty()) {
             List<DailyClassItem> classes = currentSchedule.getClasses();
             int baseIndex = currentSchedule.getCurrentClassIndex();
-            int currentIndex = baseIndex + currentOffset;
+            boolean isAllDone = (baseIndex == -1);
+            
+            int currentIndex = isAllDone ? classes.size() + currentOffset : baseIndex + currentOffset;
             
             if (currentIndex < 0) {
                 currentIndex = 0;
-                currentOffset = -baseIndex;
+                currentOffset = isAllDone ? -classes.size() : -baseIndex;
             }
-            if (currentIndex >= classes.size()) {
-                currentIndex = classes.size() - 1;
-                currentOffset = currentIndex - baseIndex;
+            if (currentIndex > classes.size()) {
+                currentIndex = classes.size();
+                currentOffset = isAllDone ? 0 : classes.size() - baseIndex;
             }
-
-            DailyClassItem item = classes.get(currentIndex);
             
-            views.setTextViewText(R.id.tvNotifCourseCode, item.getCourseCode());
-            views.setTextViewText(R.id.tvNotifCourseName, item.getCourseName());
+            String dateStr = currentSchedule.getDate().format(java.time.format.DateTimeFormatter.ofPattern("EEEE, MMM d", java.util.Locale.getDefault()));
+            views.setTextViewText(R.id.tvNotifDate, dateStr);
             
-            String time = io.github.mdraihan27.routinemanager.core.util.DateTimeFormatter.formatTime12Hour(item.getStartHour(), item.getStartMinute()) + " - " + io.github.mdraihan27.routinemanager.core.util.DateTimeFormatter.formatTime12Hour(item.getEndHour(), item.getEndMinute());
-            views.setTextViewText(R.id.tvNotifTime, time);
-
-            // Hide arrows appropriately
-            views.setViewVisibility(R.id.btnNotifPrev, currentIndex > 0 ? View.VISIBLE : View.INVISIBLE);
-            views.setViewVisibility(R.id.btnNotifNext, currentIndex < classes.size() - 1 ? View.VISIBLE : View.INVISIBLE);
-
-            // Intents
-            Intent prevIntent = new Intent(this, AppKeepAliveService.class).setAction(ACTION_PREV);
-            PendingIntent prevPending = PendingIntent.getService(this, 1, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            views.setOnClickPendingIntent(R.id.btnNotifPrev, prevPending);
-
-            Intent nextIntent = new Intent(this, AppKeepAliveService.class).setAction(ACTION_NEXT);
-            PendingIntent nextPending = PendingIntent.getService(this, 2, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            views.setOnClickPendingIntent(R.id.btnNotifNext, nextPending);
-
-            Intent cancelIntent = new Intent(this, AppKeepAliveService.class).setAction(ACTION_CANCEL_CLASS);
-            PendingIntent cancelPending = PendingIntent.getService(this, 3, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            views.setOnClickPendingIntent(R.id.btnNotifCancel, cancelPending);
-
-            // Reschedule Intent to launch MainActivity
-            Intent rescheduleIntent = new Intent(this, MainActivity.class);
-            rescheduleIntent.setAction("ACTION_RESCHEDULE_FROM_NOTIF");
-            rescheduleIntent.putExtra("EXTRA_CLASS_ID", item.getWeeklyClassId());
-            rescheduleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent reschedulePending = PendingIntent.getActivity(this, 4, rescheduleIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            views.setOnClickPendingIntent(R.id.btnNotifReschedule, reschedulePending);
-            
+            if (currentIndex == classes.size()) {
+                views.setTextViewText(R.id.tvNotifCourseCode, "No more classes today");
+                views.setTextViewText(R.id.tvNotifCourseName, "Enjoy your day!");
+                views.setTextViewText(R.id.tvNotifTime, "");
+                
+                views.setViewVisibility(R.id.btnNotifPrev, View.VISIBLE);
+                views.setViewVisibility(R.id.btnNotifNext, View.INVISIBLE);
+                views.setViewVisibility(R.id.layoutNotifActions, View.GONE);
+                
+                Intent prevIntent = new Intent(this, AppKeepAliveService.class).setAction(ACTION_PREV);
+                PendingIntent prevPending = PendingIntent.getService(this, 1, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                views.setOnClickPendingIntent(R.id.btnNotifPrev, prevPending);
+            } else {
+                DailyClassItem item = classes.get(currentIndex);
+                
+                views.setTextViewText(R.id.tvNotifCourseCode, item.getCourseCode());
+                views.setTextViewText(R.id.tvNotifCourseName, item.getCourseName());
+                
+                String time = io.github.mdraihan27.routinemanager.core.util.DateTimeFormatter.formatTime12Hour(item.getStartHour(), item.getStartMinute()) + " - " + io.github.mdraihan27.routinemanager.core.util.DateTimeFormatter.formatTime12Hour(item.getEndHour(), item.getEndMinute());
+                views.setTextViewText(R.id.tvNotifTime, time);
+    
+                views.setViewVisibility(R.id.btnNotifPrev, currentIndex > 0 ? View.VISIBLE : View.INVISIBLE);
+                views.setViewVisibility(R.id.btnNotifNext, currentIndex < classes.size() ? View.VISIBLE : View.INVISIBLE);
+                views.setViewVisibility(R.id.layoutNotifActions, View.VISIBLE);
+    
+                Intent prevIntent = new Intent(this, AppKeepAliveService.class).setAction(ACTION_PREV);
+                PendingIntent prevPending = PendingIntent.getService(this, 1, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                views.setOnClickPendingIntent(R.id.btnNotifPrev, prevPending);
+    
+                Intent nextIntent = new Intent(this, AppKeepAliveService.class).setAction(ACTION_NEXT);
+                PendingIntent nextPending = PendingIntent.getService(this, 2, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                views.setOnClickPendingIntent(R.id.btnNotifNext, nextPending);
+    
+                Intent cancelIntent = new Intent(this, AppKeepAliveService.class).setAction(ACTION_CANCEL_CLASS);
+                PendingIntent cancelPending = PendingIntent.getService(this, 3, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                views.setOnClickPendingIntent(R.id.btnNotifCancel, cancelPending);
+    
+                Intent rescheduleIntent = new Intent(this, MainActivity.class);
+                rescheduleIntent.setAction("ACTION_RESCHEDULE_FROM_NOTIF");
+                rescheduleIntent.putExtra("EXTRA_CLASS_ID", item.getWeeklyClassId());
+                rescheduleIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent reschedulePending = PendingIntent.getActivity(this, 4, rescheduleIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                views.setOnClickPendingIntent(R.id.btnNotifReschedule, reschedulePending);
+            }
         } else {
+            if (currentSchedule != null) {
+                String dateStr = currentSchedule.getDate().format(java.time.format.DateTimeFormatter.ofPattern("EEEE, MMM d", java.util.Locale.getDefault()));
+                views.setTextViewText(R.id.tvNotifDate, dateStr);
+            } else {
+                views.setTextViewText(R.id.tvNotifDate, "");
+            }
             views.setTextViewText(R.id.tvNotifCourseCode, "No Classes");
             views.setTextViewText(R.id.tvNotifCourseName, "Enjoy your day!");
             views.setTextViewText(R.id.tvNotifTime, "");
             
             views.setViewVisibility(R.id.btnNotifPrev, View.INVISIBLE);
             views.setViewVisibility(R.id.btnNotifNext, View.INVISIBLE);
+            views.setViewVisibility(R.id.layoutNotifActions, View.GONE);
         }
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(views)
+                .setCustomBigContentView(views)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setOngoing(true)
                 .setAutoCancel(false)
                 .build();

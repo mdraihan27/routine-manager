@@ -22,11 +22,17 @@ public final class PreferencesDataSourceImpl implements PreferencesDataSource {
 
     private static final String KEY_ROUTINE_OVERVIEW_VERTICAL = "routine_overview_vertical";
     private static final String KEY_PERSISTENT_NOTIFICATION = "persistent_notification_enabled";
+    private static final String KEY_CLASS_ALARM_ENABLED = "class_alarm_enabled";
+    private static final String KEY_CLASS_ALARM_MINUTES = "class_alarm_minutes";
+    private static final String KEY_THEME_MODE = "theme_mode";
 
     private final SharedPreferences preferences;
     private final BehaviorSubject<Boolean> onboardingSubject;
     private final BehaviorSubject<Boolean> verticalOverviewSubject;
     private final BehaviorSubject<Boolean> persistentNotificationSubject;
+    private final BehaviorSubject<Boolean> classAlarmEnabledSubject;
+    private final BehaviorSubject<Integer> classAlarmMinutesSubject;
+    private final BehaviorSubject<String> themeModeSubject;
 
     @Inject
     public PreferencesDataSourceImpl(@NonNull @ApplicationContext Context context) {
@@ -37,6 +43,12 @@ public final class PreferencesDataSourceImpl implements PreferencesDataSource {
         this.verticalOverviewSubject = BehaviorSubject.createDefault(isVertical);
         boolean isPersistentNotif = preferences.getBoolean(KEY_PERSISTENT_NOTIFICATION, false);
         this.persistentNotificationSubject = BehaviorSubject.createDefault(isPersistentNotif);
+        boolean isAlarmEnabled = preferences.getBoolean(KEY_CLASS_ALARM_ENABLED, false);
+        this.classAlarmEnabledSubject = BehaviorSubject.createDefault(isAlarmEnabled);
+        int alarmMinutes = preferences.getInt(KEY_CLASS_ALARM_MINUTES, 15);
+        this.classAlarmMinutesSubject = BehaviorSubject.createDefault(alarmMinutes);
+        String theme = preferences.getString(KEY_THEME_MODE, "Auto");
+        this.themeModeSubject = BehaviorSubject.createDefault(theme != null ? theme : "Auto");
     }
 
     @Override
@@ -124,5 +136,67 @@ public final class PreferencesDataSourceImpl implements PreferencesDataSource {
     @Override
     public Observable<Boolean> observePersistentNotificationEnabled() {
         return persistentNotificationSubject.hide();
+    }
+
+    @Override
+    public boolean isClassAlarmEnabled() {
+        return preferences.getBoolean(KEY_CLASS_ALARM_ENABLED, false);
+    }
+
+    @NonNull
+    @Override
+    public Completable setClassAlarmEnabled(boolean enabled) {
+        return Completable.fromAction(() -> {
+            preferences.edit().putBoolean(KEY_CLASS_ALARM_ENABLED, enabled).apply();
+            classAlarmEnabledSubject.onNext(enabled);
+        });
+    }
+
+    @NonNull
+    @Override
+    public Observable<Boolean> observeClassAlarmEnabled() {
+        return classAlarmEnabledSubject.hide();
+    }
+
+    @Override
+    public int getClassAlarmMinutesBefore() {
+        return preferences.getInt(KEY_CLASS_ALARM_MINUTES, 15);
+    }
+
+    @NonNull
+    @Override
+    public Completable setClassAlarmMinutesBefore(int minutes) {
+        return Completable.fromAction(() -> {
+            preferences.edit().putInt(KEY_CLASS_ALARM_MINUTES, minutes).apply();
+            classAlarmMinutesSubject.onNext(minutes);
+        });
+    }
+
+    @NonNull
+    @Override
+    public Observable<Integer> observeClassAlarmMinutesBefore() {
+        return classAlarmMinutesSubject.hide();
+    }
+
+    @NonNull
+    @Override
+    public String getThemeMode() {
+        String theme = preferences.getString(KEY_THEME_MODE, "Auto");
+        return theme != null ? theme : "Auto";
+    }
+
+    @NonNull
+    @Override
+    public Completable setThemeMode(@NonNull String mode) {
+        return Completable.fromAction(() -> {
+            preferences.edit().putString(KEY_THEME_MODE, mode).apply();
+            themeModeSubject.onNext(mode);
+        });
+    }
+
+    @NonNull
+    @Override
+    public Observable<String> observeThemeMode() {
+        return themeModeSubject.hide();
     }
 }
