@@ -32,10 +32,15 @@ public abstract class BaseViewModel<S extends UiState, E extends UiEvent> extend
     }
 
     protected void setState(@NonNull S newState) {
-        if (android.os.Looper.getMainLooper() == android.os.Looper.myLooper()) {
+        try {
+            if (android.os.Looper.getMainLooper() == android.os.Looper.myLooper()) {
+                stateLiveData.setValue(newState);
+            } else {
+                stateLiveData.postValue(newState);
+            }
+        } catch (RuntimeException e) {
+            // Fallback for pure JVM unit tests where Looper throws RuntimeException("Stub!")
             stateLiveData.setValue(newState);
-        } else {
-            stateLiveData.postValue(newState);
         }
     }
 
